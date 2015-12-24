@@ -36,7 +36,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     var scene, camera, light, renderer, texture, fbMaterial, mask;
     var effectIndex = 0;
     var id;
-    var effects = ["warp", "revert", "rgb shift", "oil paint", "repos", "flow", "glitch", "gradient", "warp flow", "curves", "neon glow"];
+    var effects = ["warp", "revert", "rgb shift", "oil paint", "repos", "flow","gradient", "warp flow", "curves", "neon glow"];
     var loadedItems = 0;
     var mask1 = THREE.ImageUtils.loadTexture(path + "mask1.png", undefined, checkLoading);
     mask1.minFilter = mask1.magFilter = THREE.LinearFilter;
@@ -163,7 +163,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     function createEffect() {
         shuffle(effects);
         insertRevert(effects);
-        // createSoundEffects(effects);
+        createSoundEffects(effects);
         effectIndex = 0;
         
         // var blob = dataURItoBlob(base64);
@@ -403,6 +403,15 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                 console.log("removing " + startEffect + " at " + i);
             }
         }
+
+        var glitchSeed = Math.random();
+        console.log(glitchSeed);
+        if(glitchSeed >= 0.75){
+            // var glitchEffect = Math.floor(Math.random()*
+            var randomIndex = Math.floor(Math.random() * (length + 2));
+            array.splice(randomIndex, 0, "glitch");
+        }
+
         array.splice(0, 0, startEffect);
         console.log(array);
     }
@@ -419,9 +428,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
 
     function onMouseDown() {
         mouseDown = true;
-        createSoundEffects(effects);
-        // soundFX[effectIndex].fadeIn();
-        soundFX[effectIndex].audio.play();
+        soundFX[effectIndex].fadeIn();
         // console.log(effects[effectIndex]);
         // currentSound = createjs.Sound.play(effects[effectIndex]);
         // playing = true;
@@ -434,7 +441,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             mouseDown = false;
             r2 = 0;
             mask.radius = 0;
-            soundFX[effectIndex].audio.stop();
+            soundFX[effectIndex].fadeOut();
             // playing = false;
             // currentSound.stop()
             // createjs.Sound.stop(effects[effectIndex]);
@@ -447,7 +454,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                 r2 = 0;
                 mask.radius = 0;
                 // playing = false;
-                soundFX[effectIndex].audio.stop();
+                soundFX[effectIndex].fadeOut();
                 // currentSound.stop()
                 // createjs.Sound.stop(effects[effectIndex]);
 
@@ -460,9 +467,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
 
     function onDocumentTouchStart(event) {
         mouseDown = true;
-        createSoundEffects(effects);
-        // soundFX[effectIndex].fadeIn();
-        soundFX[effectIndex].audio.play();
+        soundFX[effectIndex].fadeIn();
         updateMouse(event);
     }
 
@@ -486,7 +491,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         r2 = 0;
         mask.radius = 0;
         // soundFX[effectIndex].fade();
-        soundFX[effectIndex].audio.pause();
+        soundFX[effectIndex].fadeOut();
         createNewEffect();
     }
 
@@ -1078,7 +1083,14 @@ Below this comment are dependencies
         this.glitchEffect = function() {
             var customShaders = new CustomShaders();
             var customShaders2 = new CustomShaders();
-            var glitchShader = new GlitchShader3();
+            var glitchShaderSeed = Math.random();
+            if(glitchShaderSeed <= 0.333){
+                var glitchShader = new GlitchShader();                
+            } else if(glitchShaderSeed > 0.333 && glitchShaderSeed <= 0.666){
+                var glitchShader = new GlitchShader2();                
+            } else {
+                var glitchShader = new GlitchShader3();
+            }
             var shaders = [
                 customShaders2.passShader,
                 customShaders.diffShader2,

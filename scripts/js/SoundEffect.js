@@ -13,16 +13,16 @@ function SoundEffect(SRC, ID, MAXVOL){
 	this.init();
 
 	this.update = function(){
-		// if (this.playing) {
-	        // this.audio.play();
-            // this.audio.volume += (this.maxVolume - this.audio.volume) * 0.05;
-// 
-        // } else {
-            // this.audio.volume += (0.0 - this.audio.volume) * 0.05;
-            // if(this.audio.volume < 0.05){
-            	// this.audio.stop();
-            // }
-        // }
+		if (this.playing) {
+	        this.audio.play();
+            this.audio.volume += (this.maxVolume - this.audio.volume) * 0.05;
+
+        } else {
+            this.audio.volume += (0.0 - this.audio.volume) * 0.05;
+            if(this.audio.volume < 0.05){
+            	this.audio.stop();
+            }
+        }
 	}
 	this.fadeIn = function(){
 		this.playing = true;
