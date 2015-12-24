@@ -109,6 +109,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
 
         document.addEventListener("mousemove", onMouseMove);
         document.addEventListener("mousedown", onMouseDown);
+        document.addEventListener("click", onClick);
         document.addEventListener("mouseup", onMouseUp);
         document.addEventListener('touchstart', onDocumentTouchStart, false);
         document.addEventListener('touchmove', onDocumentTouchMove, false);
@@ -163,7 +164,6 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     function createEffect() {
         shuffle(effects);
         insertRevert(effects);
-        createSoundEffects(effects);
         effectIndex = 0;
         
         // var blob = dataURItoBlob(base64);
@@ -463,7 +463,9 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         soundFX[effectIndex].audio.play();
         updateMouse(event);
     }
-
+    function onClick(event){
+        createSoundEffects(effects);
+    }
     function onDocumentTouchMove(event) {
         mouseDown = true;
         // soundFX[effectIndex].audio.play();
