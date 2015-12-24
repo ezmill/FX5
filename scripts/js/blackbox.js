@@ -84,8 +84,8 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     var icons = document.createElement("div");
     addIcons();
     var soundFX = [];
-    // var backingTrack = new SoundEffect("assets/audio/backing.mp3", 0.25);
-    // backingTrack.fadeIn();
+    var backingTrack = new SoundEffect("assets/audio/backing.mp3", "backing", 0.25);
+    backingTrack.fadeIn();
     var rendererStats  = new THREEx.RendererStats()
     rendererStats.domElement.style.position   = 'absolute'
     rendererStats.domElement.style.left  = '0px'
@@ -294,7 +294,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         }
         mask.update();
         alpha.needsUpdate = true;
-        // backingTrack.update();
+        backingTrack.update();
         for(var i = 0; i < soundFX.length; i++){
             soundFX[i].update();
         }
