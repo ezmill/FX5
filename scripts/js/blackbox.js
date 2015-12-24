@@ -419,7 +419,8 @@ function blackbox(el, inputImage, origImage, size, cbs) {
 
     function onMouseDown() {
         mouseDown = true;
-        soundFX[effectIndex].fadeIn();
+        // soundFX[effectIndex].fadeIn();
+        soundFX[effectIndex].audio.play();
         // console.log(effects[effectIndex]);
         // currentSound = createjs.Sound.play(effects[effectIndex]);
         // playing = true;
@@ -432,7 +433,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             mouseDown = false;
             r2 = 0;
             mask.radius = 0;
-            soundFX[effectIndex].fadeOut();
+            soundFX[effectIndex].audio.stop();
             // playing = false;
             // currentSound.stop()
             // createjs.Sound.stop(effects[effectIndex]);
@@ -445,7 +446,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                 r2 = 0;
                 mask.radius = 0;
                 // playing = false;
-                soundFX[effectIndex].fadeOut();
+                soundFX[effectIndex].audio.stop();
                 // currentSound.stop()
                 // createjs.Sound.stop(effects[effectIndex]);
 
@@ -458,7 +459,8 @@ function blackbox(el, inputImage, origImage, size, cbs) {
 
     function onDocumentTouchStart(event) {
         mouseDown = true;
-        soundFX[effectIndex].fadeIn();
+        // soundFX[effectIndex].fadeIn();
+        soundFX[effectIndex].audio.play();
         updateMouse(event);
     }
 
@@ -482,7 +484,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         r2 = 0;
         mask.radius = 0;
         // soundFX[effectIndex].fade();
-        soundFX[effectIndex].fadeOut();
+        soundFX[effectIndex].audio.pause();
         createNewEffect();
     }
 
