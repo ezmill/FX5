@@ -3006,3 +3006,204 @@ var GlitchShader = function(){
         
         ].join("\n");
 }
+var GlitchShader2 = function(){
+        this.uniforms = THREE.UniformsUtils.merge([
+            {
+                "texture"  : { type: "t", value: null },
+                "noise"  : { type: "t", value: null },
+                "origTex"  : { type: "t", value: null },
+                "alpha"  : { type: "t", value: null },
+                "mouse"  : { type: "v2", value: null },
+                "mask"  : { type: "t", value: null },
+                "resolution"  : { type: "v2", value: null },
+                "time"  : { type: "f", value: null },
+                "r2"  : { type: "f", value: null }
+
+            }
+        ]);
+        this.vertexShader = [
+
+            "varying vec2 vUv;",
+            "void main() {",
+            "    vUv = uv;",
+            "    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
+            "}"
+        
+        ].join("\n");
+        
+        this.fragmentShader = [
+            
+            "uniform sampler2D texture;",
+            "uniform sampler2D alpha;",
+            "uniform sampler2D noise;",
+            "uniform sampler2D origTex;",
+            "uniform sampler2D mask;",
+            "uniform vec2 resolution;",
+            "uniform vec2 mouse;",
+            "uniform float r2;",
+            "uniform float time;",
+            "varying vec2 vUv;",
+            "void main()",
+            "{",
+            "	vec2 uv = vUv;",
+            "vec3 col = texture2D(texture, vUv).rgb;",
+            "vec4 alpha = texture2D(alpha, vUv);",
+            "vec4 mask = texture2D(mask, vUv);",
+            "	vec2 fc = gl_FragCoord.xy;",
+            "	vec2 block = floor(fc / vec2(16));",
+            "	vec2 uv_noise = block / vec2(64);",
+            "	uv_noise += floor(vec2(time*0.01) * vec2(1234.0, 3543.0)) / vec2(64);",
+            "	",
+            "	float block_thresh = pow(fract((time*0.001) * 1236.0453), 2.0) * 2.0;",
+            // "	float block_thresh = 0.2;",
+            "	float line_thresh = pow(fract((time*0.001) * 2236.0453), 3.0) * 2.0;",
+            // "	float line_thresh = 0.2;",
+            "	",
+            "	vec2 uv_r = uv, uv_g = uv, uv_b = uv;",
+
+            "	// glitch some blocks and lines",
+            "	if (texture2D(noise, uv_noise).r < block_thresh ||",
+            "		texture2D(noise, vec2(uv_noise.y, 0.0)).g < line_thresh) {",
+
+            "		vec2 dist = (fract(uv_noise) - 0.5) * 0.3;",
+            "		uv_r += dist * 0.1;",
+            "		uv_g += dist * 0.1;",
+            "		uv_b += dist * 0.1;",
+            "	}",
+
+            "	vec3 col2;",
+            "	col2.r = texture2D(texture, uv_r).r;",
+            "	col2.g = texture2D(texture, uv_g).g;",
+            "	col2.b = texture2D(texture, uv_b).b;",
+
+            "	// loose luma for some blocks",
+            "	if (texture2D(noise, uv_noise).g < block_thresh)",
+            // "		col2.rgb = col2.ggg;",
+
+            "	// discolor block lines",
+            "	if (texture2D(noise, vec2(uv_noise.y, 0.0)).b * 3.5 < line_thresh)",
+            // "		col2.rgb = vec3(0.0, dot(col2.rgb, vec3(1.0)), 0.0);",
+
+            "	// interleave lines in some blocks",
+            "	if (texture2D(noise, uv_noise).g * 1.5 < block_thresh ||",
+            "		texture2D(noise, vec2(uv_noise.y, 0.0)).g * 2.5 < line_thresh) {",
+            "		float line = fract(fc.y / 3.0);",
+            "		vec3 mask = vec3(3.0, 0.0, 0.0);",
+            "		if (line > 0.333)",
+            "			mask = vec3(0.0, 3.0, 0.0);",
+            "		if (line > 0.666)",
+            "			mask = vec3(0.0, 0.0, 3.0);",
+            "		",
+            // "		col2.xyz *= mask;",
+            "	}",
+        	"   col = mix( col, col2.rgb, dot(alpha.rgb, vec3(1.0))/3.0);",
+        	"	gl_FragColor = vec4(col.rgb, 1.0);",
+            "}",
+
+
+        
+        ].join("\n");
+}
+var GlitchShader3 = function(){
+        this.uniforms = THREE.UniformsUtils.merge([
+            {
+                "texture"  : { type: "t", value: null },
+                "noise"  : { type: "t", value: null },
+                "noise2"  : { type: "t", value: null },
+                "origTex"  : { type: "t", value: null },
+                "alpha"  : { type: "t", value: null },
+                "mouse"  : { type: "v2", value: null },
+                "mask"  : { type: "t", value: null },
+                "resolution"  : { type: "v2", value: null },
+                "time"  : { type: "f", value: null },
+                "r2"  : { type: "f", value: null }
+
+            }
+        ]);
+        this.vertexShader = [
+
+            "varying vec2 vUv;",
+            "void main() {",
+            "    vUv = uv;",
+            "    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
+            "}"
+        
+        ].join("\n");
+        
+        this.fragmentShader = [
+            
+            "uniform sampler2D texture;",
+            "uniform sampler2D alpha;",
+            "uniform sampler2D noise;",
+            "uniform sampler2D noise2;",
+            "uniform sampler2D origTex;",
+            "uniform sampler2D mask;",
+            "uniform vec2 resolution;",
+            "uniform vec2 mouse;",
+            "uniform float r2;",
+            "uniform float time;",
+            "varying vec2 vUv;",
+            
+            "#define pi 3.1415926",
+
+            "//float t = fract(time / 10.0) * 10.0;",
+
+            "vec3 colorSplit(vec2 uv, vec2 s)",
+            "{",
+            "    vec3 color;",
+            "    color.r = texture2D(texture, uv/* - s*/).r;",
+            "    color.g = texture2D(texture, uv    ).g;",
+            "    color.b = texture2D(texture, uv/* + s*/).b;",
+            "    return color;",
+            "}",
+
+            "vec2 interlace(vec2 uv, float s)",
+            "{",
+            "    uv.x += s * (4.0 * fract((uv.y * resolution.y) / 2.0) - 1.0);",
+            "    return uv;",
+            "}",
+
+            "vec2 fault(vec2 uv, float s)",
+            "{",
+            "    //float v = (0.5 + 0.5 * cos(2.0 * pi * uv.y)) * (2.0 * uv.y - 1.0);",
+            "    float v = pow(0.5 - 0.5 * cos(2.0 * pi * uv.y), 100.0) * sin(2.0 * pi * uv.y);",
+            "    uv.x += v * s;",
+            "    return uv;",
+            "}",
+
+            "vec2 rnd(vec2 uv, float s)",
+            "{",
+            "    uv.x += s * (2.0 * texture2D(noise2, uv * 0.05).x - 1.0);",
+            "    return uv;",
+            "}",
+
+            "void main(){",
+            "	float t = time / 10.0;",
+        	"	vec2 uv = vUv;",
+        	"	vec3 col = texture2D(texture, vUv).rgb;",
+        	"	vec4 alpha = texture2D(alpha, vUv);",
+        	"	vec4 mask = texture2D(mask, vUv);",            
+            "    //float s = pow(0.5 + 0.5 * cos(2.0 * pi * t), 1000.0);",
+            "    float s = texture2D(noise2, vec2(t * 0.2, 0.5)).r;",
+            "    ",
+            "   // uv = interlace(uv, s * 0.005);",
+            "    //uv = fault(uv, s);",
+            "    float r = texture2D(noise, vec2(t, 0.0)).x;",
+            "    //uv = fault(uv + vec2(0.0, fract(t * 20.0)), r) - vec2(0.0, fract(t * 20.0));",
+            "    uv = fault(uv + vec2(0.0, fract(t * 2.0)), 5.0 * sign(r) * pow(abs(r), 5.0)) - vec2(0.0, fract(t * 2.0));",
+            "    uv = rnd(uv, s * 0.02);",
+            "    ",
+            "    vec3 color = colorSplit(uv, vec2(s * 0.02, 0.0));",
+            "    //vec2 m = texture2D(noise, uv).xy;",
+            "    //color = mix(color, texture2D(noise2, 0.5 * uv + t * 100.0).rgb, 0.25);",
+            "    ",
+            "   col = mix( col, color, dot(alpha.rgb, vec3(1.0))/3.0);",
+
+            "	gl_FragColor = vec4(col, 1.0);",
+            "}",
+
+
+
+        
+        ].join("\n");
+}

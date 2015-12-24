@@ -20,6 +20,7 @@
 		<script src="scripts/js/three.min.js"></script>
 		<script src="scripts/js/SoundEffect.js"></script>
 		<script src="scripts/js/CustomShaders2.js"></script>
+		<script src="scripts/js/soundjs-0.6.2.min.js"></script>
 		<!-- // <script src='scripts/js/threex.js'></script> -->
 		<script src='scripts/js/threex.renderstats.js'></script>
 		<script src="scripts/js/blackbox.js"></script>
@@ -35,7 +36,7 @@
 				origImage = canvas.toDataURL();
                 blackbox(blackboxEl, origImage, origImage, {w: imgEl.width, h: imgEl.height}, {save: onCompleteBlackbox, info: null})
 			}
-			imgEl.src = "assets/textures/12/texture.jpg";
+			imgEl.src = "assets/textures/1/texture.jpg";
 
 			function onCompleteBlackbox (err, inputImage, origImage) {
 			    if (err) { console.error(err); return }

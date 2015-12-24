@@ -20,10 +20,10 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     div.style.overflow = "hidden";
     div.style.height = "100vh";
     div.style.width = "100vw";
-    var marginLeft = 850;
+    var marginLeft = 1000;
     var useMargin = false;
     var renderSize;
-    var imgNum = 12;
+    var imgNum = 1;
     var path = "assets/textures/" + imgNum + "/";
     var mouse = new THREE.Vector2(0.0, 0.0);
     var time = 0.0;
@@ -48,6 +48,10 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     white.minFilter = white.magFilter = THREE.LinearFilter;
     var black = THREE.ImageUtils.loadTexture("assets/textures/black.jpg", undefined, checkLoading);
     black.minFilter = black.magFilter = THREE.LinearFilter;
+    var noiseTex = THREE.ImageUtils.loadTexture("assets/textures/tex11.png", undefined, checkLoading);
+    noiseTex.minFilter = noiseTex.magFilter = THREE.LinearFilter;
+    var noiseTex2 = THREE.ImageUtils.loadTexture("assets/textures/tex16.png", undefined, checkLoading);
+    noiseTex2.minFilter = noiseTex2.magFilter = THREE.LinearFilter;
     if (texture) texture.dispose();
     if (origTex) origTex.dispose();
     var img = new Image();
@@ -71,7 +75,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     function checkLoading() {
         ++loadedItems;
         console.log(loadedItems);
-        if (loadedItems >= 7) {
+        if (loadedItems >= 9) {
           init();
         }
     }
@@ -80,13 +84,14 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     var icons = document.createElement("div");
     addIcons();
     var soundFX = [];
-    var backingTrack = new SoundEffect("assets/audio/backing.mp3", 0.25);
-    backingTrack.fadeIn();
+    // var backingTrack = new SoundEffect("assets/audio/backing.mp3", 0.25);
+    // backingTrack.fadeIn();
     var rendererStats  = new THREEx.RendererStats()
     rendererStats.domElement.style.position   = 'absolute'
     rendererStats.domElement.style.left  = '0px'
     rendererStats.domElement.style.bottom    = '0px'
     var debounceResize;
+    var currentSound, playing = true;
     // document.body.appendChild( rendererStats.domElement )
 
     function init() {
@@ -127,13 +132,33 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         animate();
     }
     function createSoundEffects(effects){
+        if (!createjs.Sound.initializeDefaultPlugins()) {return;}
+
         var path = "assets/audio/"
         var format = ".mp3";
         for(var i = 0; i < effects.length; i++){
             var src = path + effects[i] + format;
-            var sound = new SoundEffect(src, 1.0);
+            var sound = new SoundEffect(src, effects[i], 1.0);
             soundFX.push(sound);
         }
+        // var path = "assets/audio/"
+//         var sounds = [
+//             {id:"backing", src:"backing.mp3"},
+//             {id:"warp", src:"warp.mp3"},
+//             {id:"revert", src:"revert.mp3"},
+//             {id:"rgb shift", src:"rgb shift.mp3"},
+//             {id:"oil paint", src:"oil paint.mp3"},
+//             {id:"repos", src:"repos.mp3"},
+//             {id:"flow", src:"flow.mp3"},
+//             {id:"glitch", src:"neon glow.mp3"},
+//             {id:"gradient", src:"gradient.mp3"},
+//             {id:"warp flow", src:"warp flow.mp3"},
+//             {id:"curves", src:"curves.mp3"},
+//             {id:"neon glow", src:"neon glow.mp3"}
+//         ];
+        // createjs.Sound.addEventListener("fileload", handleLoad);
+        // console.log(createjs.Sound);
+//         createjs.Sound.registerSounds(sounds, path);
     }
     function createEffect() {
         shuffle(effects);
@@ -269,10 +294,19 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         }
         mask.update();
         alpha.needsUpdate = true;
-        backingTrack.update();
+        // backingTrack.update();
         for(var i = 0; i < soundFX.length; i++){
             soundFX[i].update();
         }
+        // if (playing) {
+            // currentSound.volume += (1.0 - currentSound.volume) * 0.05;
+        // } else {
+            // currentSound.volume += (0.0 - currentSound.volume) * 0.05;
+            // if(currentSound.volume < 0.05){
+                // currentSound.stop();
+            // }
+        // }
+// 
         // testMesh.material.map.needsUpdate = true;
         fbMaterial.setUniforms();
         fbMaterial.update();
@@ -363,9 +397,10 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         var startEffectNum = Math.floor(Math.random() * startEffects.length);
         var startEffect = startEffects[startEffectNum];
         console.log(startEffect);
-        for (var i = 0; i < length; i++) {
+        for (var i = 0; i < length + 2; i++) {
             if (array[i] == startEffect) {
                 array.splice(i, 1);
+                console.log("removing " + startEffect + " at " + i);
             }
         }
         array.splice(0, 0, startEffect);
@@ -385,6 +420,11 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     function onMouseDown() {
         mouseDown = true;
         soundFX[effectIndex].fadeIn();
+        // console.log(effects[effectIndex]);
+        // currentSound = createjs.Sound.play(effects[effectIndex]);
+        // playing = true;
+        // currentSound = createjs.Sound.play(effects[effectIndex]);
+
     }
 
     function onMouseUp() {
@@ -393,6 +433,10 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             r2 = 0;
             mask.radius = 0;
             soundFX[effectIndex].fadeOut();
+            // playing = false;
+            // currentSound.stop()
+            // createjs.Sound.stop(effects[effectIndex]);
+
             createNewEffect();
         } else {
             document.removeEventListener("mousedown", onMouseDown);
@@ -400,7 +444,11 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                 mouseDown = false;
                 r2 = 0;
                 mask.radius = 0;
+                // playing = false;
                 soundFX[effectIndex].fadeOut();
+                // currentSound.stop()
+                // createjs.Sound.stop(effects[effectIndex]);
+
                 createNewEffect();
                 document.addEventListener("mousedown", onMouseDown);
             }, 2000)
@@ -657,7 +705,8 @@ Below this comment are dependencies
                 if (this.fbos[i].material.uniforms["mouse"]) this.fbos[i].material.uniforms["mouse"].value = new THREE.Vector2(mouse.x, mouse.y);
                 if (this.material.uniforms["mouse"]) this.material.uniforms["mouse"].value = new THREE.Vector2(mouse.x, mouse.y);
                 if (this.material.uniforms["curveMap"]) this.material.uniforms["curveMap"].value.needsUpdate = true;
-                // if(this.material.uniforms["mask"])this.material.uniforms["mask"].value.needsUpdate = true;
+                if(this.material.uniforms["noise"])this.material.uniforms["noise"].value = noiseTex;
+                if(this.material.uniforms["noise2"])this.material.uniforms["noise2"].value = noiseTex2;
                 if (this.material.uniforms["mask"]) this.material.uniforms["mask"].value = this.mask;
 
                 if (this.fbos[i].material.uniforms["origTex"]) this.fbos[i].material.uniforms["origTex"].value = this.origTex;
@@ -1025,7 +1074,7 @@ Below this comment are dependencies
         this.glitchEffect = function() {
             var customShaders = new CustomShaders();
             var customShaders2 = new CustomShaders();
-            var glitchShader = new GlitchShader();
+            var glitchShader = new GlitchShader3();
             var shaders = [
                 customShaders2.passShader,
                 customShaders.diffShader2,

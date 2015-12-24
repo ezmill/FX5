@@ -1,11 +1,13 @@
-function SoundEffect(SRC, MAXVOL){
+function SoundEffect(SRC, ID, MAXVOL){
 	this.src = SRC;
+	this.id = ID;
 	this.playing = false;
 	this.maxVolume = MAXVOL;
 	this.init = function(){
-		this.audio = new Audio();
-		this.audio.src = this.src;
-		this.audio.load();
+		createjs.Sound.registerSound(this.src, this.id);
+		this.audio = createjs.Sound.createInstance(this.id);
+		// this.audio.src = this.src;
+		// this.audio.load();
 		// this.audio.muted = true;
 	}
 	this.init();
@@ -18,7 +20,7 @@ function SoundEffect(SRC, MAXVOL){
         } else {
             this.audio.volume += (0.0 - this.audio.volume) * 0.05;
             if(this.audio.volume < 0.05){
-            	this.audio.pause();
+            	this.audio.stop();
             }
         }
 	}
