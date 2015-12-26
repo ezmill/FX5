@@ -12,13 +12,13 @@ function SoundEffect(SRC, ID, MAXVOL){
     createjs.Sound.addEventListener("fileload", loadProxy);
 	createjs.Sound.registerSound(this.src, this.id);
 
-	this.init = function(){
-		this.audio = createjs.Sound.createInstance(this.id);
+	// this.init = function(){
+		// this.audio = createjs.Sound.createInstance(this.id);
 		// this.audio.src = this.src;
 		// this.audio.load();
 		// this.audio.muted = true;
-
-	}
+// 
+	// }
 
 	this.update = function(){
 		if (this.playing) {

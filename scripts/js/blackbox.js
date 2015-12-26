@@ -75,7 +75,6 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     }
     function checkLoading() {
         ++loadedItems;
-        console.log(loadedItems);
         if (loadedItems >= 9) {
           init();
         }
@@ -397,11 +396,9 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         var startEffects = ["rgb shift", "neon glow", "curves", "oil paint", "warp"];
         var startEffectNum = Math.floor(Math.random() * startEffects.length);
         var startEffect = startEffects[startEffectNum];
-        console.log(startEffect);
         for (var i = 0; i < length + 2; i++) {
             if (array[i] == startEffect) {
                 array.splice(i, 1);
-                console.log("removing " + startEffect + " at " + i);
             }
         }
 
@@ -416,7 +413,9 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         }
 
         array.splice(0, 0, startEffect);
-        console.log(array);
+        for(var i = 0; i < array.length; i++){
+            console.log(array[i]);
+        }
     }
 
     function onMouseMove(event) {
