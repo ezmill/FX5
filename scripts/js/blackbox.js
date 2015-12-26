@@ -259,12 +259,12 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             fbMaterial.dispose();
             fbMaterial = new FeedbackMaterial(renderer, scene, camera, texture, effect.shaders);
             fbMaterial.init();
-            setMask();
             if (useNewOriginal) {
                 fbMaterial.setOriginalTex(texture);
             } else {
                 fbMaterial.setOriginalTex(origTex);
             }
+            setMask();
     }
     function setMask(){
         if (effect.name == "neon glow") {
