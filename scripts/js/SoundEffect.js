@@ -5,7 +5,7 @@ function SoundEffect(SRC, ID, MAXVOL){
 	this.maxVolume = MAXVOL;
 	var handleLoad = function(event) {
 		// this.init();
-		this.audio = createjs.Sound.createInstance(this.id);
+		this.audio = createjs.Sound.createInstance(event.src);
 
     }
 	var loadProxy = createjs.proxy(handleLoad, this);

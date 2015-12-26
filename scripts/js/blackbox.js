@@ -723,6 +723,7 @@ Below this comment are dependencies
                 if(this.material.uniforms["noise"])this.material.uniforms["noise"].value = noiseTex;
                 if(this.material.uniforms["noise2"])this.material.uniforms["noise2"].value = noiseTex2;
                 if (this.material.uniforms["mask"]) this.material.uniforms["mask"].value = this.mask;
+                if (this.fbos[i].material.uniforms["mask"]) this.fbos[i].material.uniforms["mask"].value = this.mask;
 
                 if (this.fbos[i].material.uniforms["origTex"]) this.fbos[i].material.uniforms["origTex"].value = this.origTex;
                 if (this.material.uniforms["origTex"]) this.material.uniforms["origTex"].value = this.origTex;
