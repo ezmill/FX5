@@ -505,7 +505,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         mask.resize();
         fbMaterial.resize();
         // fbMaterial.update();
-        renderer.render(scene, camera);
+        // renderer.render(scene, camera);
         // fbMaterial.getNewFrame();
         // fbMaterial.swapBuffers();
         fbMaterial.setUniforms();
