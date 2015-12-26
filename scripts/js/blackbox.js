@@ -36,6 +36,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     var scene, camera, light, renderer, texture, fbMaterial, mask;
     var effectIndex = 0;
     var id;
+    var glitchShaderSeed;
     var effects = ["warp", "revert", "rgb shift", "oil paint", "repos", "flow","gradient", "warp flow", "curves", "neon glow"];
     var loadedItems = 0;
     var mask1 = THREE.ImageUtils.loadTexture(path + "mask1.png", undefined, checkLoading);
@@ -407,6 +408,8 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         var glitchSeed = Math.random();
         console.log(glitchSeed);
         if(glitchSeed >= 0.75){
+            glitchShaderSeed = Math.random();
+
             // var glitchEffect = Math.floor(Math.random()*
             var randomIndex = Math.floor(Math.random() * (length + 2));
             array.splice(randomIndex, 0, "glitch");
@@ -501,6 +504,10 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         renderer.setSize(renderSize.x, renderSize.y);
         mask.resize();
         fbMaterial.resize();
+        // fbMaterial.update();
+        renderer.render(scene, camera);
+        // fbMaterial.getNewFrame();
+        // fbMaterial.swapBuffers();
         fbMaterial.setUniforms();
         if(marginLeft > window.innerWidth){
         useMargin = true;
@@ -1083,7 +1090,6 @@ Below this comment are dependencies
         this.glitchEffect = function() {
             var customShaders = new CustomShaders();
             var customShaders2 = new CustomShaders();
-            var glitchShaderSeed = Math.random();
             if(glitchShaderSeed <= 0.333){
                 var glitchShader = new GlitchShader();                
             } else if(glitchShaderSeed > 0.333 && glitchShaderSeed <= 0.666){

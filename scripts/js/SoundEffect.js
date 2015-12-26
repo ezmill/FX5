@@ -3,14 +3,22 @@ function SoundEffect(SRC, ID, MAXVOL){
 	this.id = ID;
 	this.playing = false;
 	this.maxVolume = MAXVOL;
+	var handleLoad = function(event) {
+		// this.init();
+		this.audio = createjs.Sound.createInstance(this.id);
+
+    }
+	var loadProxy = createjs.proxy(handleLoad, this);
+    createjs.Sound.addEventListener("fileload", loadProxy);
+	createjs.Sound.registerSound(this.src, this.id);
+
 	this.init = function(){
-		createjs.Sound.registerSound(this.src, this.id);
 		this.audio = createjs.Sound.createInstance(this.id);
 		// this.audio.src = this.src;
 		// this.audio.load();
 		// this.audio.muted = true;
+
 	}
-	this.init();
 
 	this.update = function(){
 		if (this.playing) {
