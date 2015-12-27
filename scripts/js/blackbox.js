@@ -296,8 +296,10 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         }
         mask.update();
         alpha.needsUpdate = true;
-        texture.needsUpdate = true;
-        origTex.needsUpdate = true;
+        // texture.needsUpdate = true;
+
+        // origTex.needsUpdate = true;
+
         backingTrack.update();
         for(var i = 0; i < soundFX.length; i++){
             soundFX[i].update();
