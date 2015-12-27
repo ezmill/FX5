@@ -111,14 +111,17 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         renderer.autoClear = false;
         // renderer.setPixelRatio(1);
         // console.log(window.devicePixelRatio);
-
+        createEffect();
+        debounceResize = debounce(onWindowResize, 250);
+        window.addEventListener("resize", debounceResize);
+        
         if(isMobile){
             if(window.innerHeight > window.innerWidth){
                 overlay.style.display = "block";
             } else {
                 overlay.style.display = "none";
                 // animate();
-                createEffect();
+                
                 document.addEventListener("mousemove", onMouseMove);
                 document.addEventListener("mousedown", onMouseDown);
                 document.addEventListener("mouseup", onMouseUp);
@@ -129,8 +132,6 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                 document.addEventListener('touchcancel', onDocumentTouchEnd, false);
                 document.addEventListener('touchleave', onDocumentTouchEnd, false);
                 // document.addEventListener('keydown', onKeyDown, false);
-                debounceResize = debounce(onWindowResize, 250);
-                window.addEventListener("resize", debounceResize);
                 if(isMobile)div.addEventListener("click", null);
                 if(isMobile)div.addEventListener("touchstart", null);
                 if(isMobile)div.addEventListener("touchdown", null);
