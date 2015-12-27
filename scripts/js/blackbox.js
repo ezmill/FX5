@@ -121,9 +121,9 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         // document.addEventListener('keydown', onKeyDown, false);
         debounceResize = debounce(onWindowResize, 250);
         window.addEventListener("resize", debounceResize);
-        if(isMobile)renderer.domElement.addEventListener("click", onMobileClick);
-        if(isMobile)renderer.domElement.addEventListener("touchstart", onMobileClick);
-        if(isMobile)renderer.domElement.addEventListener("touchdown", onMobileClick);
+        if(isMobile)div.addEventListener("click", null);
+        if(isMobile)div.addEventListener("touchstart", null);
+        if(isMobile)div.addEventListener("touchdown", null);
         infoButton.addEventListener("click", cbs.info);
         infoButton.addEventListener("touchstart", cbs.info);
         infoButton.addEventListener("touchdown", cbs.info);
@@ -476,11 +476,13 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         }
 
     }
-    function onMobileClick(){
-        mouseDown = true;
-        soundFX[effectIndex].fadeIn();
-        window.removeEventListener("click", onMobileClick);
-    }
+    // function onMobileClick(){
+        // mouseDown = true;
+        // soundFX[effectIndex].fadeIn();
+        // div.removeEventListener("click", onMobileClick);
+        // div.removeEventListener("click", onMobileClick);
+        // div.removeEventListener("click", onMobileClick);
+    // }
 
     function onDocumentTouchStart(event) {
         mouseDown = true;
