@@ -53,33 +53,18 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     noiseTex.minFilter = noiseTex.magFilter = THREE.LinearFilter;
     var noiseTex2 = THREE.ImageUtils.loadTexture("assets/textures/tex16.png", undefined, checkLoading);
     noiseTex2.minFilter = noiseTex2.magFilter = THREE.LinearFilter;
-    if (texture) texture.dispose();
-    if (origTex) origTex.dispose();
     var img = new Image();
     img.src = inputImage;
     var origImg = new Image();
     origImg.src = origImage;
     texture = new THREE.Texture();
-    
     origTex = new THREE.Texture();
     
     img.onload = function() {
-        checkLoading();
-        texture.image = img;
-        texture.minFilter = texture.magFilter = THREE.LinearFilter;
-        texture.needsUpdate = true;
+        checkLoading();  
     }
     origImg.onload = function() {
-        checkLoading();
-        origTex.image = img;
-        origTex.minFilter = origTex.magFilter = THREE.LinearFilter;
-        origTex.needsUpdate = true;
-    }
-    function checkLoading() {
-        ++loadedItems;
-        if (loadedItems >= 9) {
-          init();
-        }
+        checkLoading(); 
     }
     var infoButton = document.createElement("div");
     var uploadButton = document.createElement("div");
@@ -87,7 +72,6 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     addIcons();
     var soundFX = [];
     var backingTrack = new SoundEffect("assets/audio/backing.mp3", "backing", 0.25);
-    backingTrack.fadeIn();
     var rendererStats  = new THREEx.RendererStats()
     rendererStats.domElement.style.position   = 'absolute'
     rendererStats.domElement.style.left  = '0px'
@@ -95,7 +79,19 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     var debounceResize;
     var currentSound, playing = true;
     // document.body.appendChild( rendererStats.domElement )
-
+    function checkLoading() {
+        ++loadedItems;
+        if (loadedItems >= 9) {
+            texture.image = img;
+            texture.minFilter = texture.magFilter = THREE.LinearFilter;
+            texture.needsUpdate = true;
+            origTex.image = img;
+            origTex.minFilter = origTex.magFilter = THREE.LinearFilter;
+            origTex.needsUpdate = true;
+            backingTrack.fadeIn();
+            init();
+        }
+    }
     function init() {
         scene = new THREE.Scene();
         camera = new THREE.Camera();
