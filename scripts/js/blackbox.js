@@ -121,7 +121,9 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         // document.addEventListener('keydown', onKeyDown, false);
         debounceResize = debounce(onWindowResize, 250);
         window.addEventListener("resize", debounceResize);
-        if(isMobile)window.addEventListener("click", onMobileClick);
+        if(isMobile)renderer.domElement.addEventListener("click", onMobileClick);
+        if(isMobile)renderer.domElement.addEventListener("touchstart", onMobileClick);
+        if(isMobile)renderer.domElement.addEventListener("touchdown", onMobileClick);
         infoButton.addEventListener("click", cbs.info);
         infoButton.addEventListener("touchstart", cbs.info);
         infoButton.addEventListener("touchdown", cbs.info);
