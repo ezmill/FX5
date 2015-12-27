@@ -107,9 +107,9 @@ function blackbox(el, inputImage, origImage, size, cbs) {
 
         document.addEventListener("mousemove", onMouseMove);
         document.addEventListener("mousedown", onMouseDown);
-        document.addEventListener("click", onMouseDown);
         document.addEventListener("mouseup", onMouseUp);
         document.addEventListener('touchstart', onDocumentTouchStart, false);
+        document.addEventListener('touchdown', onDocumentTouchStart, false);
         document.addEventListener('touchmove', onDocumentTouchMove, false);
         document.addEventListener('touchend', onDocumentTouchEnd, false);
         document.addEventListener('touchcancel', onDocumentTouchEnd, false);
