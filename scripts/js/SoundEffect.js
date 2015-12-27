@@ -3,6 +3,7 @@ function SoundEffect(SRC, ID, MAXVOL){
 	this.id = ID;
 	this.playing = false;
 	this.maxVolume = MAXVOL;
+	this.audio;
 	var handleLoad = function(event) {
 		// this.init();
 		this.audio = createjs.Sound.createInstance(this.id);
@@ -36,6 +37,7 @@ function SoundEffect(SRC, ID, MAXVOL){
 		this.playing = true;
 	}
 	this.fadeOut = function(){
+		console.log("fading out");
 		this.playing = false;
 	}
 }

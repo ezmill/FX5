@@ -23,10 +23,10 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     div.style.overflow = "hidden";
     div.style.height = "100vh";
     div.style.width = "100vw";
-    var marginLeft = 1000;
+    var marginLeft = 900;
     var useMargin = false;
     var renderSize;
-    var imgNum = 1;
+    var imgNum = 2;
     var path = "assets/textures/" + imgNum + "/";
     var mouse = new THREE.Vector2(0.0, 0.0);
     var time = 0.0;
@@ -40,7 +40,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     var effectIndex = 0;
     var id;
     var glitchShaderSeed;
-    var effects = ["warp", "revert", "rgb shift", "oil paint", "repos", "flow","gradient", "warp flow", "curves", "neon glow"];
+    var effects = ["warp", "revert", "rgb shift", "oil paint", "repos", "flow",/*"gradient",*/ "warp flow", "curves", "neon glow"];
     var loadedItems = 0;
     var mask1 = THREE.ImageUtils.loadTexture(path + "mask1.png", undefined, checkLoading);
     mask1.minFilter = mask1.magFilter = THREE.LinearFilter;
@@ -60,6 +60,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     img.src = inputImage;
     var origImg = new Image();
     origImg.src = origImage;
+
     texture = new THREE.Texture();
     origTex = new THREE.Texture();
     
@@ -81,6 +82,9 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     rendererStats.domElement.style.bottom    = '0px'
     var debounceResize;
     var currentSound, playing = true;
+    var overlay = document.getElementById("overlay");
+    var startedAnimating = false;
+    var timer = "paused";
     // document.body.appendChild( rendererStats.domElement )
     function checkLoading() {
         ++loadedItems;
@@ -127,15 +131,27 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         infoButton.addEventListener("click", cbs.info);
         infoButton.addEventListener("touchstart", cbs.info);
         infoButton.addEventListener("touchdown", cbs.info);
-      
-        onWindowResize();
-        div.appendChild(renderer.domElement)
         uploadButton.addEventListener('click', onClickButton)
         uploadButton.addEventListener('touchstart', onClickButton)
         uploadButton.addEventListener('touchdown', onClickButton)
+
+        div.appendChild(renderer.domElement)
         el.appendChild(div)
 
-        animate();
+        if(isMobile){
+            if(window.innerHeight > window.innerWidth){
+                overlay.style.display = "block";
+            } else {
+                overlay.style.display = "none";
+                // animate();
+                onWindowResize();
+
+            }
+        }
+        if(startedAnimating){
+            timer = "playing";
+            animate();
+        }
     }
     function createSoundEffects(effects){
         if (!createjs.Sound.initializeDefaultPlugins()) {return;}
@@ -203,6 +219,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         fbMaterial.init();
         setMask();
         fbMaterial.setOriginalTex(origTex);
+        planeRotate();
     }
 
     function createNewEffect() {
@@ -290,13 +307,13 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     function draw() {
         time += 0.01;
         if (mouseDown) {
-            if(effect.name == "gradient"){
-                r2 += 0.0075;
-                mask.radius += 0.0075;
-            } else {
+            // if(effect.name == "gradient"){
+                // r2 += 0.0075;
+                // mask.radius += 0.0075;
+            // } else {
                 r2 = 0.5;
                 mask.radius = 0.5;
-            }
+            // }
         }
         mask.update();
         alpha.needsUpdate = true;
@@ -449,7 +466,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     }
 
     function onMouseUp() {
-        if(effect.name != "gradient"){
+        // if(effect.name != "gradient"){
             mouseDown = false;
             r2 = 0;
             mask.radius = 0;
@@ -459,21 +476,21 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             // createjs.Sound.stop(effects[effectIndex]);
 
             createNewEffect();
-        } else {
-            document.removeEventListener("mousedown", onMouseDown);
-            window.setTimeout(function(){
-                mouseDown = false;
-                r2 = 0;
-                mask.radius = 0;
+        // } else {
+            // document.removeEventListener("mousedown", onMouseDown);
+            // window.setTimeout(function(){
+                // mouseDown = false;
+                // r2 = 0;
+                // mask.radius = 0;
                 // playing = false;
-                soundFX[effectIndex].fadeOut();
+                // soundFX[effectIndex].fadeOut();
                 // currentSound.stop()
                 // createjs.Sound.stop(effects[effectIndex]);
-
-                createNewEffect();
-                document.addEventListener("mousedown", onMouseDown);
-            }, 2000)
-        }
+// 
+                // createNewEffect();
+                // document.addEventListener("mousedown", onMouseDown);
+            // }, 2000)
+        // }
 
     }
     // function onMobileClick(){
@@ -525,24 +542,58 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         // fbMaterial.getNewFrame();
         // fbMaterial.swapBuffers();
         fbMaterial.setUniforms();
-        if(marginLeft > window.innerWidth && window.innerWidth < window.innerHeight){
-        useMargin = true;
+        if(isMobile){
+            if(window.innerHeight > window.innerWidth){
+                overlay.style.display = "block";
+                if(startedAnimating){
+                    if(timer == "playing"){
+                        timer = "paused";                    
+                        window.cancelAnimationFrame(id);
+                    }
+                }
+            } else {
+                overlay.style.display = "none";
+                if(startedAnimating){
+                    if(timer == "paused"){
+                        timer = "playing";
+                        id = window.requestAnimationFrame(animate);                        
+                    }
+                    // draw();
+                } else {
+                    // animate();
+                    startedAnimating = true;
+                }
+            }
+        }
+        if(marginLeft > window.innerWidth && !isMobile /*&& renderSize.y > marginLeft/2*/){
+        // var ratio = window.innerWidth/window.innerHeight;
+        // if( ratio > 1.7 && !isMobile /*&& renderSize.y > marginLeft/2*/){
+            useMargin = true;
             // for(var i = 0; i < fbMaterial.fbos.length; i++){
                 // fbMaterial.fbos[i].mesh.position.set(-10, 0, 0);
             // }
             // console.log((window.innerWidth - marginLeft)/renderSize.x);
             // fbMaterial.mesh.position.set((window.innerWidth - marginLeft)/renderSize.x, 0, 0);
 
-        // renderer.domElement.style["margin-left"] = window.innerWidth - marginLeft + "px";
+            renderer.domElement.style["margin-left"] = (window.innerWidth - marginLeft) + "px";
         } else {
-        useMargin = false;
+            useMargin = false;
             // for(var i = 0; i < fbMaterial.fbos.length; i++){
                 // fbMaterial.fbos[i].mesh.position.set(0, 0, 0)
             // }
             // fbMaterial.mesh.position.set(0, 0, 0)
 
-        // renderer.domElement.style["margin-left"] = 0;
+            renderer.domElement.style["margin-left"] = 0;
         }
+    }
+    function planeRotate(){
+        // mask.mesh.rotation.set(0,0, Math.PI/2);
+        // mask.overlayMesh.rotation.set(0,0, Math.PI/2);
+        // mask.overlayMesh2.rotation.set(0,0, Math.PI/2);
+        // fbMaterial.mesh.rotation.set(0,0, Math.PI/2);
+        // for(var i = 0; i < fbMaterial.fbos.length; i++){
+            // fbMaterial.fbos[i].mesh.rotation.set(0,0, Math.PI/2);
+        // }
     }
 
     function onKeyDown(event) {

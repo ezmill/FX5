@@ -13,9 +13,35 @@
 				/*text-align:center;*/
 				/*overflow: hidden;*/
 			}
+			#overlay{
+				z-index: 1;
+				background: rgba(0,0,0,0.25);
+				color: white;
+				text-align: center;
+				width: 100vw;
+				height: 100vh;
+				position: absolute;
+				display: none;
+			}
+			#overlay p{
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				font-size: 50px;
+				line-height: 50px;
+				margin: 0 auto;
+				-webkit-transform: translate(-50%, -50%);
+				   -moz-transform: translate(-50%, -50%);
+				    -ms-transform: translate(-50%, -50%);
+				     -o-transform: translate(-50%, -50%);
+				        transform: translate(-50%, -50%);
+			}
 		</style>
 	</head>
 	<body>
+		<div id="overlay">
+			<p>ROTATE YOUR DEVICE</p>
+		</div>
 		<div id="BB-container"></div>
 		<script src="scripts/js/three.min.js"></script>
 		<script src="scripts/js/SoundEffect.js"></script>
@@ -36,7 +62,7 @@
 				origImage = canvas.toDataURL();
                 blackbox(blackboxEl, origImage, origImage, {w: imgEl.width, h: imgEl.height}, {save: onCompleteBlackbox, info: null})
 			}
-			imgEl.src = "assets/textures/1/texture.jpg";
+			imgEl.src = "assets/textures/2/texture.jpg";
 
 			function onCompleteBlackbox (err, inputImage, origImage) {
 			    if (err) { console.error(err); return }
