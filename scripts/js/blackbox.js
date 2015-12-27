@@ -60,17 +60,19 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     var origImg = new Image();
     origImg.src = origImage;
     texture = new THREE.Texture();
-    texture.image = img;
-    texture.minFilter = texture.magFilter = THREE.LinearFilter;
+    
     origTex = new THREE.Texture();
-    origTex.image = img;
-    origTex.minFilter = origTex.magFilter = THREE.LinearFilter;
+    
     img.onload = function() {
         checkLoading();
+        texture.image = img;
+        texture.minFilter = texture.magFilter = THREE.LinearFilter;
         texture.needsUpdate = true;
     }
     origImg.onload = function() {
         checkLoading();
+        origTex.image = img;
+        origTex.minFilter = origTex.magFilter = THREE.LinearFilter;
         origTex.needsUpdate = true;
     }
     function checkLoading() {
