@@ -29,7 +29,7 @@ function blackbox(el, sources, size, cbs) {
     var renderSize;
     var imgNum = 2;
     window.debug = true;
-    var PATH = window.debug ? './assets/' : './vendors/blackbox/assets/';
+    var PATH = window.debug ? '../../assets/' : './vendors/blackbox/assets/';
     var mouse = new THREE.Vector2(0.0, 0.0);
     var time = 0.0;
     var mouseDown = false;
@@ -44,10 +44,13 @@ function blackbox(el, sources, size, cbs) {
     var glitchShaderSeed;
     var effects = ["warp", "revert", "rgb shift", "oil paint", "repos", "flow", "warp flow", "curves", "neon glow"];
     var loadedItems = 0;
-    var white = THREE.ImageUtils.loadTexture(PATH + "textures/white2.jpg", undefined, checkLoading);
+    var white = THREE.ImageUtils.loadTexture(PATH + "textures/white.jpg", undefined, checkLoading);
     white.minFilter = white.magFilter = THREE.LinearFilter;
     var black = THREE.ImageUtils.loadTexture(PATH + "textures/black.jpg", undefined, checkLoading);
     black.minFilter = black.magFilter = THREE.LinearFilter;
+    var noiseTex = THREE.ImageUtils.loadTexture(PATH + "textures/noise.jpg", undefined, checkLoading);
+    noiseTex.minFilter = noiseTex.magFilter = THREE.NearestFilter;
+    noiseTex.wrapS = noiseTex.wrapT = THREE.RepeatWrapping;
     var img = new Image();
     img.src = sources.input;
     var origImg = new Image();
@@ -80,7 +83,7 @@ function blackbox(el, sources, size, cbs) {
     var isAnimating = false;
     function checkLoading() {
         ++loadedItems;
-        if (loadedItems >= 7) {
+        if (loadedItems >= 8) {
             texture.image = img;
             texture.minFilter = texture.magFilter = THREE.LinearFilter;
             texture.needsUpdate = true;
@@ -604,6 +607,7 @@ function blackbox(el, sources, size, cbs) {
                 if (this.material.uniforms.mouse) this.material.uniforms.mouse.value = new THREE.Vector2(mouse.x, mouse.y);
                 if (this.material.uniforms.curveMap) this.material.uniforms.curveMap.value.needsUpdate = true;
                 if (this.material.uniforms.mask) this.material.uniforms.mask.value = this.mask;
+                if (this.material.uniforms.noise) this.material.uniforms.noise.value = noiseTex;
                 if (this.fbos[i].material.uniforms.mask) this.fbos[i].material.uniforms.mask.value = this.mask;
                 if (this.fbos[i].material.uniforms.origTex) this.fbos[i].material.uniforms.origTex.value = this.origTex;
                 if (this.material.uniforms.origTex) this.material.uniforms.origTex.value = this.origTex;
