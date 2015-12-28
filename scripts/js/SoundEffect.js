@@ -4,9 +4,13 @@ function SoundEffect(SRC, ID, MAXVOL){
 	this.playing = false;
 	this.maxVolume = MAXVOL;
 	this.audio;
+	this.loaded = false;
 	var handleLoad = function(event) {
 		// this.init();
 		this.audio = createjs.Sound.createInstance(this.id);
+		this.loaded = true;
+		// this.audio.volume = 0.0;
+		// this.fadeOut();
 
     }
 	var loadProxy = createjs.proxy(handleLoad, this);
@@ -22,16 +26,18 @@ function SoundEffect(SRC, ID, MAXVOL){
 	// }
 
 	this.update = function(){
-		if (this.playing) {
-	        this.audio.play();
-            this.audio.volume += (this.maxVolume - this.audio.volume) * 0.05;
+		if(this.loaded){
+			if (this.playing) {
+		        this.audio.play();
+	            this.audio.volume += (this.maxVolume - this.audio.volume) * 0.05;
 
-        } else {
-            this.audio.volume += (0.0 - this.audio.volume) * 0.05;
-            if(this.audio.volume < 0.05){
-            	this.audio.stop();
-            }
-        }
+	        } else {
+	            this.audio.volume += (0.0 - this.audio.volume) * 0.05;
+	            if(this.audio.volume < 0.05){
+	            	this.audio.stop();
+	            }
+	        }
+		}
 	}
 	this.fadeIn = function(){
 		this.playing = true;

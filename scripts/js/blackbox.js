@@ -1,5 +1,5 @@
 ;(function (root, document, factory) {
-    root.blackbox = factory()
+    root.blackbox = factory();
 })(this, this.document, function () {
 
 /**
@@ -18,11 +18,12 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     var isMobile = false;
     (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4)))isMobile = true})(navigator.userAgent||navigator.vendor||window.opera);
 
-    var div = document.createElement('div')
-    div.className = 'blackbox'
+    var div = document.createElement('div');
+    div.className = 'blackbox';
     div.style.overflow = "hidden";
     div.style.height = "100vh";
     div.style.width = "100vw";
+    div.style.textAlign = "center";
     var marginLeft = 900;
     var useMargin = false;
     var renderSize;
@@ -32,11 +33,11 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     var time = 0.0;
     var mouseDown = false;
     var r2 = 0.0;
-    var origTex, origImage;
+    var origTex;
     var w = size.w,
-        h = size.h
+        h = size.h;
     setRenderSize();
-    var scene, camera, light, renderer, texture, fbMaterial, mask;
+    var scene, camera, renderer, texture, fbMaterial, mask;
     var effectIndex = 0;
     var id;
     var glitchShaderSeed;
@@ -66,10 +67,10 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     
     img.onload = function() {
         checkLoading();  
-    }
+    };
     origImg.onload = function() {
         checkLoading(); 
-    }
+    };
     var infoButton = document.createElement("div");
     var uploadButton = document.createElement("div");
     var dummyButton = document.createElement("div");
@@ -78,7 +79,6 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     var soundFX = [];
     var backingTrack = new SoundEffect("assets/audio/backing.mp3", "backing", 0.25);
     var debounceResize;
-    var currentSound, playing = true;
     var overlay = document.getElementById("overlay");
     var isAnimating = false;
     function checkLoading() {
@@ -109,8 +109,8 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         debounceResize = debounce(onWindowResize, 250);
         window.addEventListener("resize", debounceResize);
 
-        div.appendChild(renderer.domElement)
-        el.appendChild(div)
+        div.appendChild(renderer.domElement);
+        el.appendChild(div);
         if(isMobile){
             if(window.innerHeight > window.innerWidth){
                 overlay.style.display = "block";
@@ -127,14 +127,13 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     function createSoundEffects(effects){
         if (!createjs.Sound.initializeDefaultPlugins()) {return;}
 
-        var path = "assets/audio/"
+        var path = "assets/audio/";
         var format = ".mp3";
         for(var i = 0; i < effects.length; i++){
             var src = path + effects[i] + format;
             var sound = new SoundEffect(src, effects[i], 1.0);
             soundFX.push(sound);
         }
-        soundFX[0].fadeOut();
     }
     function createEffect() {
         shuffle(effects);
@@ -192,7 +191,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             mask.setMask(false);
             fbMaterial.setOriginalTex(origTex);
         }
-        fbMaterial.setMask(revertTex)
+        fbMaterial.setMask(revertTex);
     }
     function animate() {
         id = requestAnimationFrame(animate);
@@ -230,7 +229,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         window.removeEventListener("resize", debounceResize);
 
         // Detach the UI wrapper and its content from the root element.
-        el.removeChild(div)
+        el.removeChild(div);
 
         // renderer.setSize(renderSize.x, renderSize.y);
         // mask.resize();
@@ -275,7 +274,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                 array.splice(i, 1);
             }
         }
-        for (var i = 0; i < length; i++) {
+        for (i = 0; i < length; i++) {
             if (array[i] == "flow" || array[i] == "repos") {
                 array.splice(i + 1, 0, "revert");
             }
@@ -283,7 +282,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         var startEffects = ["rgb shift", "neon glow", "curves", "oil paint", "warp"];
         var startEffectNum = Math.floor(Math.random() * startEffects.length);
         var startEffect = startEffects[startEffectNum];
-        for (var i = 0; i < length + 2; i++) {
+        for (i = 0; i < length + 2; i++) {
             if (array[i] == startEffect) {
                 array.splice(i, 1);
             }
@@ -291,7 +290,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
 
         var glitchSeed = Math.random();
         console.log(glitchSeed);
-        if(glitchSeed >= 0.75){
+        if(glitchSeed >= 0.9){
             glitchShaderSeed = Math.random();
 
             // var glitchEffect = Math.floor(Math.random()*
@@ -300,9 +299,6 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         }
 
         array.splice(0, 0, startEffect);
-        for(var i = 0; i < array.length; i++){
-            console.log(array[i]);
-        }
     }
 
     function onMouseMove(event) {
@@ -324,7 +320,12 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         mouseDown = false;
         r2 = 0;
         mask.radius = 0;
-        soundFX[effectIndex].fadeOut();
+        // if(effectIndex == 0){
+        //     // soundFX[effectIndex].audio.stop();
+        //     createjs.Sound.stop(soundFX[effectIndex].id);
+        // } else {
+            soundFX[effectIndex].fadeOut();            
+        // }
         createNewEffect();
     }
 
@@ -352,7 +353,12 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         mouseDown = false;
         r2 = 0;
         mask.radius = 0;
-        soundFX[effectIndex].fadeOut();
+        // if(effectIndex == 0){
+            // soundFX[effectIndex].audio.stop();
+            // console.log("audio stopped");
+        // } else {
+            soundFX[effectIndex].fadeOut();            
+        // }
         createNewEffect();
     }
 
@@ -392,13 +398,16 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                 }
             }
         }
-        if(marginLeft > window.innerWidth && !isMobile && ((renderSize.x - renderSize.y) > (window.innerWidth))){
-            useMargin = true;
-            renderer.domElement.style["margin-left"] = (window.innerWidth - marginLeft) + "px";
-        } else {
-            useMargin = false;
-            renderer.domElement.style["margin-left"] = 0;
-        }
+        // if(marginLeft > window.innerWidth && !isMobile){
+            // var newMargin = window.innerWidth - marginLeft;
+            // if((marginLeft + newMargin <= 0)){
+                // useMargin = true;
+                // renderer.domElement.style["margin-left"] = newMargin + "px";
+            // } else {
+                useMargin = false;
+                renderer.domElement.style["margin-left"] = 0;
+            // }
+        // }
     }
 
     function setRenderSize(){
@@ -409,20 +418,20 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         }
     }
     function addIcons(){
-        icons.style["position"] = "fixed";
-        icons.style["top"] = 0;
-        icons.style["left"] = 0;
-        icons.style["right"] = 0;
-        icons.style["bottom"] = 0;
-        icons.style["width"] = window.innerWidth;
-        icons.style["height"] = window.innerHeight;
+        icons.style.position = "fixed";
+        icons.style.top = 0;
+        icons.style.left = 0;
+        icons.style.right = 0;
+        icons.style.bottom = 0;
+        icons.style.width = window.innerWidth;
+        icons.style.height = window.innerHeight;
         icons.style["font-size"] = 48;
-        uploadButton.style["position"] = infoButton.style["position"] = "absolute";
-        uploadButton.style["right"] = infoButton.style["right"] = 0;
-        uploadButton.style["margin"] = infoButton.style["margin"] = "20px";
-        uploadButton.style["cursor"] = infoButton.style["cursor"] = "pointer";
+        uploadButton.style.position = infoButton.style.position = "absolute";
+        uploadButton.style.right = infoButton.style.right = 0;
+        uploadButton.style.margin = infoButton.style.margin = "20px";
+        uploadButton.style.cursor = infoButton.style.cursor = "pointer";
         uploadButton.style["font-size"] = infoButton.style["font-size"] = "48px";
-        uploadButton.style["bottom"] = 0;
+        uploadButton.style.bottom = 0;
         var infoIcon = document.createElement("i");
         infoIcon.className = "pe-7s-info";
         var uploadIcon = document.createElement("i");
@@ -430,28 +439,13 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         infoButton.appendChild(infoIcon);
         uploadButton.appendChild(uploadIcon);
         if(isMobile){
-            dummyButton.style["position"] = "absolute";
-            dummyButton.style["left"] = 0;
-            dummyButton.style["margin"] = "0";
-            dummyButton.style["cursor"] = "pointer";
+            dummyButton.style.position = "absolute";
+            dummyButton.style.left = 0;
+            dummyButton.style.margin = "0";
+            dummyButton.style.cursor = "pointer";
             dummyButton.style["font-size"] = "100vw";
-            // dummyButton.addEventListener("click", function(){
-            //     dummyButton.style["display"] = "none";
-            //     dummyButton.removeEventListener("click", null);
-            //     icons.removeChild(dummyButton);
-            // });
-            // dummyButton.addEventListener("touchstart", function(){
-            //     dummyButton.style["display"] = "none";
-            //     dummyButton.removeEventListener("touchstart", null);
-            //     icons.removeChild(dummyButton);
-            // });
             var dummyIcon = document.createElement("i");
-            // dummyIcon.style["width"] = "100vw";
-            // dummyIcon.style["height"] = "100vh";
-            // dummyIcon.style["display"] = "inline-block";
             dummyIcon.className = "pe-7s-info";
-            // dummyIcon.style["visibility"] = "hidden";
-            // dummyButton.appendChild(dummyIcon);
             icons.appendChild(dummyButton);
         }
         icons.appendChild(infoButton);
@@ -471,7 +465,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             timeout = setTimeout(later, wait);
             if (callNow) func.apply(context, args);
         };
-    };
+    }
 
     function addEventListeners(){
         document.addEventListener("mousemove", onMouseMove);
@@ -489,6 +483,8 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         dummyButton.addEventListener("touchstart", null);
         dummyButton.addEventListener("touchmove", null);
         dummyButton.addEventListener("touchend", null);
+        dummyButton.addEventListener("touchcancel", null);
+        dummyButton.addEventListener("touchleave", null);
         uploadButton.addEventListener('click', onClickButton);
         uploadButton.addEventListener('touchstart', onClickButton);
     }
@@ -524,7 +520,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         this.shader1 = SHADERS[0];
         this.shader2 = SHADERS[1];
         this.shader3 = SHADERS[2];
-        this.outputShader = SHADERS[3]
+        this.outputShader = SHADERS[3];
 
         this.mesh;
 
@@ -552,10 +548,10 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                 transparent: true,
                 side: 2
             });
-            this.material.uniforms["texture"].value = this.fbos[2].renderTarget;
-            this.material.uniforms["texture"].minFilter = this.material.uniforms["texture"].magFilter = THREE.LinearFilter;
-            this.material.uniforms["resolution"].value = new THREE.Vector2(renderSize.x, renderSize.y);
-            this.material.uniforms["mouse"].value = new THREE.Vector2(renderSize.x, 0);
+            this.material.uniforms.texture.value = this.fbos[2].renderTarget;
+            this.material.uniforms.texture.minFilter = this.material.uniforms.texture.magFilter = THREE.LinearFilter;
+            this.material.uniforms.resolution.value = new THREE.Vector2(renderSize.x, renderSize.y);
+            this.material.uniforms.mouse.value = new THREE.Vector2(renderSize.x, 0);
 
             this.geometry = new THREE.PlaneGeometry(2, 2, 0);
 
@@ -563,72 +559,72 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             this.mesh.position.set(0, 0, 0);
             this.scene.add(this.mesh);
             this.fbos[0].material.uniforms.texture.value = this.fbos[1].renderTarget;
-        }
+        };
 
         this.resize = function() {
             for (var i = 0; i < this.fbos.length; i++) {
                 this.fbos[i].renderTarget.setSize(renderSize.x, renderSize.y);
             }
-        }
+        };
 
         this.update = function() {
             this.fbos[1].render(this.renderer, this.camera);
             this.fbos[2].render(this.renderer, this.camera);
-            this.fbos[2].material.uniforms["texture"].value.needsUpdate = true;
-        }
+            this.fbos[2].material.uniforms.texture.value.needsUpdate = true;
+        };
         this.expand = function(scl) {
             this.frameDiff.mesh.scale.set(scl, scl, scl);
-        }
+        };
         this.scale = function(scl) {
             for (var i = 0; i < this.fbos.length; i++) {
                 this.fbos[i].mesh.scale.set(scl, scl, scl);
             }
-        }
+        };
         this.getNewFrame = function() {
             this.fbos[0].render(this.renderer, this.camera);
-        }
+        };
         this.swapBuffers = function() {
             var a = this.fbos[2].renderTarget;
             this.fbos[2].renderTarget = this.fbos[0].renderTarget;
             this.fbos[0].renderTarget = a;
-        }
+        };
         this.setUniforms = function() {
             for (var i = 0; i < this.fbos.length; i++) {
                 this.fbos[i].material.uniforms.time.value = time;
                 this.material.uniforms.time.value = time;
-                if (this.fbos[i].material.uniforms["r2"]) this.fbos[i].material.uniforms["r2"].value = r2;
-                if (this.material.uniforms["r2"]) this.material.uniforms["r2"].value = r2;
-                if (this.fbos[i].material.uniforms["resolution"]) this.fbos[i].material.uniforms["resolution"].value = new THREE.Vector2(renderSize.x, renderSize.y);
-                if (this.material.uniforms["resolution"]) this.material.uniforms["resolution"].value = new THREE.Vector2(renderSize.x, renderSize.y);
-                if (this.fbos[i].material.uniforms["alpha"]) this.fbos[i].material.uniforms["alpha"].value = alpha;
-                if (this.material.uniforms["alpha"]) this.material.uniforms["alpha"].value = alpha;
-                if (this.fbos[i].material.uniforms["mouse"]) this.fbos[i].material.uniforms["mouse"].value = new THREE.Vector2(mouse.x, mouse.y);
-                if (this.material.uniforms["mouse"]) this.material.uniforms["mouse"].value = new THREE.Vector2(mouse.x, mouse.y);
-                if (this.material.uniforms["curveMap"]) this.material.uniforms["curveMap"].value.needsUpdate = true;
-                if (this.material.uniforms["noise"])this.material.uniforms["noise"].value = noiseTex;
-                if (this.material.uniforms["noise2"])this.material.uniforms["noise2"].value = noiseTex2;
-                if (this.material.uniforms["mask"]) this.material.uniforms["mask"].value = this.mask;
-                if (this.fbos[i].material.uniforms["mask"]) this.fbos[i].material.uniforms["mask"].value = this.mask;
-                if (this.fbos[i].material.uniforms["origTex"]) this.fbos[i].material.uniforms["origTex"].value = this.origTex;
-                if (this.material.uniforms["origTex"]) this.material.uniforms["origTex"].value = this.origTex;
-                if (this.fbos[i].material.uniforms["seed"]) this.fbos[i].material.uniforms["seed"].value = seed;
-                if (this.material.uniforms["seed"]) this.material.uniforms["seed"].value = seed;
+                if (this.fbos[i].material.uniforms.r2) this.fbos[i].material.uniforms.r2.value = r2;
+                if (this.material.uniforms.r2) this.material.uniforms.r2.value = r2;
+                if (this.fbos[i].material.uniforms.resolution) this.fbos[i].material.uniforms.resolution.value = new THREE.Vector2(renderSize.x, renderSize.y);
+                if (this.material.uniforms.resolution) this.material.uniforms.resolution.value = new THREE.Vector2(renderSize.x, renderSize.y);
+                if (this.fbos[i].material.uniforms.alpha) this.fbos[i].material.uniforms.alpha.value = alpha;
+                if (this.material.uniforms.alpha) this.material.uniforms.alpha.value = alpha;
+                if (this.fbos[i].material.uniforms.mouse) this.fbos[i].material.uniforms.mouse.value = new THREE.Vector2(mouse.x, mouse.y);
+                if (this.material.uniforms.mouse) this.material.uniforms.mouse.value = new THREE.Vector2(mouse.x, mouse.y);
+                if (this.material.uniforms.curveMap) this.material.uniforms.curveMap.value.needsUpdate = true;
+                if (this.material.uniforms.noise)this.material.uniforms.noise.value = noiseTex;
+                if (this.material.uniforms.noise2)this.material.uniforms.noise2.value = noiseTex2;
+                if (this.material.uniforms.mask) this.material.uniforms.mask.value = this.mask;
+                if (this.fbos[i].material.uniforms.mask) this.fbos[i].material.uniforms.mask.value = this.mask;
+                if (this.fbos[i].material.uniforms.origTex) this.fbos[i].material.uniforms.origTex.value = this.origTex;
+                if (this.material.uniforms.origTex) this.material.uniforms.origTex.value = this.origTex;
+                if (this.fbos[i].material.uniforms.seed) this.fbos[i].material.uniforms.seed.value = seed;
+                if (this.material.uniforms.seed) this.material.uniforms.seed.value = seed;
             }
-        }
+        };
         this.setMask = function(tex) {
             this.mask = tex;
-        }
+        };
         this.setOriginalTex = function(tex) {
             this.origTex = tex;
-        }
+        };
         this.dispose = function() {
             for (var i = 0; i < this.fbos.length; i++) {
                 this.fbos[i].dispose();
             }
             this.material.dispose();
             this.geometry.dispose();
-            this.scene.remove(this.mesh)
-        }
+            this.scene.remove(this.mesh);
+        };
     }
 
     function FeedbackObject(SHADER) {
@@ -650,18 +646,18 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             this.mesh = new THREE.Mesh(this.geometry, this.material);
             this.mesh.position.set(0, 0, 0);
             this.scene.add(this.mesh);
-        }
+        };
         this.initialize(SHADER);
         this.render = function(RENDERER, CAMERA) {
             RENDERER.render(this.scene, CAMERA, this.renderTarget, true);
-        }
+        };
         this.dispose = function() {
             this.renderTarget.dispose();
             this.material.dispose();
             this.material.uniforms.texture.value.dispose();
             this.geometry.dispose();
             this.scene.remove(this.mesh);
-        }
+        };
     }
 
     function Effect(NAME) {
@@ -789,7 +785,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                     [1, 1]
                 ]
             ]
-        ]
+        ];
         this.init = function() {
             switch (this.name) {
                 case "warp":
@@ -818,7 +814,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                     this.shaders = this.warpFlowEffect();
                     break;
                 case "curves":
-                    var curveNum = Math.floor(Math.random() * this.curves.length)
+                    var curveNum = Math.floor(Math.random() * this.curves.length);
                     this.shaders = this.curvesEffect(
                         this.curves[curveNum][0],
                         this.curves[curveNum][1],
@@ -830,10 +826,12 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                     break;
                 case "glass":
                     this.shaders = this.glassEffect();
+                        break;
                 case "glitch":
                     this.shaders = this.glitchEffect();
+                        break;
             }
-        }
+        };
         this.warpEffect = function() {
             var customShaders = new CustomShaders();
             var shaders = [
@@ -841,22 +839,21 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                 customShaders.diffShader2,
                 customShaders.passShader,
                 customShaders.warp2
-            ]
+            ];
             return shaders;
-        }
+        };
         this.revertEffect = function() {
             var customShaders = new CustomShaders();
             var customShaders2 = new CustomShaders();
             var revertShader = new RevertShader();
-            var denoiseShader = new DenoiseShader();
             var shaders = [
                     customShaders.passShader,
                     customShaders.diffShader2,
                     customShaders2.passShader,
                     revertShader
-                ]
+                ];
             return shaders;
-        }
+        };
         this.rgbShiftEffect = function() {
             var customShaders = new CustomShaders();
             var customShaders2 = new CustomShaders();
@@ -866,9 +863,9 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                 customShaders.diffShader2,
                 customShaders.passShader,
                 rgbShiftShader
-            ]
+            ];
             return shaders;
-        }
+        };
         this.oilPaintEffect = function() {
             var customShaders = new CustomShaders();
             var customShaders2 = new CustomShaders();
@@ -878,34 +875,31 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                 customShaders.diffShader2,
                 customShaders2.passShader,
                 oilPaintShader
-            ]
+            ];
             return shaders;
-        }
+        };
         this.reposEffect = function() {
             var customShaders = new CustomShaders();
-            var denoiseShader = new DenoiseShader();
-            var customShaders2 = new CustomShaders();
             var psdMaskShader = new PSDMaskShader();
             var shaders = [
                 customShaders.reposShader,
                 customShaders.diffShader,
                 customShaders.passShader,
                 psdMaskShader,
-            ]
+            ];
             return shaders;
-        }
+        };
         this.flowEffect = function() {
             var customShaders = new CustomShaders();
-            var customShaders2 = new CustomShaders();
             var psdMaskShader = new PSDMaskShader();
             var shaders = [
                 customShaders.flowShader,
                 customShaders.diffShader,
                 customShaders.passShader,
                 psdMaskShader,
-            ]
+            ];
             return shaders;
-        }
+        };
         this.gradientEffect = function() {
             var customShaders = new CustomShaders();
             var gradientShader = new GradientShader();
@@ -916,34 +910,32 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                 customShaders2.passShader,
                 gradientShader
 
-            ]
+            ];
             return shaders;
-        }
+        };
         this.warpFlowEffect = function() {
             var customShaders = new CustomShaders();
             var warpFlowShader = new WarpFlowShader();
             var psdMaskShader = new PSDMaskShader();
-            var gradientShader = new GradientShader();
             var shaders = [
                 customShaders.flowShader,
                 customShaders.diffShader,
                 warpFlowShader,
                 psdMaskShader,
-            ]
+            ];
             return shaders;
-        }
+        };
         this.curvesEffect = function(red, green, blue) {
             var customShaders = new CustomShaders();
             var curvesShader = new CurvesShader(red, green, blue);
-            var gradientShader = new GradientShader();
             var shaders = [
                 customShaders.passShader,
                 customShaders.diffShader2,
                 customShaders.passShader,
                 curvesShader
-            ]
+            ];
             return shaders;
-        }
+        };
         this.neonGlowEffect = function() {
             var customShaders = new CustomShaders();
             var customShaders2 = new CustomShaders();
@@ -953,9 +945,9 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                 customShaders.diffShader2,
                 customShaders.passShader,
                 neonGlowShader
-            ]
+            ];
             return shaders;
-        }
+        };
         this.glassEffect = function() {
             var customShaders = new CustomShaders();
             var customShaders2 = new CustomShaders();
@@ -965,27 +957,21 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                 customShaders.diffShader2,
                 customShaders.passShader,
                 glassShader
-            ]
+            ];
             return shaders;
-        }
+        };
         this.glitchEffect = function() {
             var customShaders = new CustomShaders();
             var customShaders2 = new CustomShaders();
-            if(glitchShaderSeed <= 0.333){
-                var glitchShader = new GlitchShader();                
-            } else if(glitchShaderSeed > 0.333 && glitchShaderSeed <= 0.666){
-                var glitchShader = new GlitchShader();                
-            } else {
-                var glitchShader = new GlitchShader();
-            }
+            var glitchShader = new GlitchShader();
             var shaders = [
                 customShaders2.passShader,
                 customShaders.diffShader2,
                 customShaders.passShader,
                 glitchShader
-            ]
+            ];
             return shaders;
-        }
+        };
     }
 
     function Mask(RENDERER) {
@@ -1016,9 +1002,9 @@ function blackbox(el, inputImage, origImage, size, cbs) {
                 vertexShader: this.shader.vertexShader,
                 transparent: true
             });
-            this.material.uniforms["resolution"].value = new THREE.Vector2(renderSize.x, renderSize.y);
-            this.material.uniforms["white"].value = white;
-            this.material.uniforms["black"].value = black;
+            this.material.uniforms.resolution.value = new THREE.Vector2(renderSize.x, renderSize.y);
+            this.material.uniforms.white.value = white;
+            this.material.uniforms.black.value = black;
             this.mesh = new THREE.Mesh(this.geometry, this.material);
             this.scene.add(this.mesh);
             this.mesh.position.z = 0;
@@ -1039,7 +1025,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             this.overlayMaterial = new THREE.MeshBasicMaterial({
                 map: this.renderTarget1,
                 transparent: true
-            })
+            });
             this.overlayMesh = new THREE.Mesh(this.overlayGeometry, this.overlayMaterial);
             this.outputScene.add(this.overlayMesh);
             this.overlayMesh.position.z = 0;
@@ -1048,15 +1034,15 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             this.overlayMaterial2 = new THREE.MeshBasicMaterial({
                 map: this.alphaTex,
                 transparent: true
-            })
+            });
             this.overlayMesh2 = new THREE.Mesh(this.overlayGeometry2, this.overlayMaterial2);
             this.outputScene.add(this.overlayMesh2);
             this.overlayMesh2.position.z = 1;
-        }
+        };
         this.update = function() {
-            this.material.uniforms["r2"].value = this.radius;
-            this.material.uniforms["mouse"].value = new THREE.Vector2(mouse.x, mouse.y);
-            this.material.uniforms["time"].value = time;
+            this.material.uniforms.r2.value = this.radius;
+            this.material.uniforms.mouse.value = new THREE.Vector2(mouse.x, mouse.y);
+            this.material.uniforms.time.value = time;
 
 
             this.renderer.clearTarget(this.oRenderTarget, true, false, false);
@@ -1066,10 +1052,10 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             this.renderer.clearTarget(this.oRenderTarget, true, true, false);
             this.renderer.render(this.outputScene, this.outputCamera, this.oRenderTarget);
 
-            this.material.uniforms["black"].value = this.renderTarget1;
+            this.material.uniforms.black.value = this.renderTarget1;
             this.swapBuffers();
 
-        }
+        };
         this.setMask = function(tex) {
             if (tex) {
                 this.overlayMesh2.visible = true;
@@ -1077,12 +1063,12 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             } else {
                 this.overlayMesh2.visible = false;
             }
-        }
+        };
         this.swapBuffers = function() {
             var temp = this.renderTarget1;
             this.renderTarget1 = this.renderTarget2;
             this.renderTarget2 = temp;
-        }
+        };
         this.resize = function() {
             this.renderer.setSize(renderSize.x, renderSize.y);
             this.renderTarget1.setSize(renderSize.x, renderSize.y);
@@ -1092,7 +1078,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             this.camera.right = this.outputCamera.right = renderSize.x / 2;
             this.camera.top = this.outputCamera.top = renderSize.y / 2;
             this.camera.bottom = this.outputCamera.bottom = renderSize.y / -2;
-        }
+        };
     }
 
     function MaskShader() {
@@ -1163,6 +1149,6 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     }
 }
 
-return blackbox
+return blackbox;
 
-})
+});
