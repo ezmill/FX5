@@ -485,8 +485,10 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         document.addEventListener('touchleave', onDocumentTouchEnd, false);
         infoButton.addEventListener("click", cbs.info);
         infoButton.addEventListener("touchstart", cbs.info);
-        dummyButton.addEventListener("click", cbs.info);
-        dummyButton.addEventListener("touchstart", cbs.info);
+        dummyButton.addEventListener("click", null);
+        dummyButton.addEventListener("touchstart", null);
+        dummyButton.addEventListener("touchmove", null);
+        dummyButton.addEventListener("touchend", null);
         uploadButton.addEventListener('click', onClickButton);
         uploadButton.addEventListener('touchstart', onClickButton);
     }
