@@ -431,8 +431,10 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         uploadButton.appendChild(uploadIcon);
         if(isMobile){
             dummyButton.style["position"] = "absolute";
-            dummyButton.style["width"] = "100vw";
-            dummyButton.style["height"] = "100vh";
+            dummyButton.style["right"] = 0;
+            dummyButton.style["margin"] = "20px";
+            dummyButton.style["cursor"] = "pointer";
+            dummyButton.style["font-size"] = "48px";
             // dummyButton.addEventListener("click", function(){
             //     dummyButton.style["display"] = "none";
             //     dummyButton.removeEventListener("click", null);
@@ -444,9 +446,10 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             //     icons.removeChild(dummyButton);
             // });
             var dummyIcon = document.createElement("i");
-            dummyIcon.style["width"] = "100vw";
-            dummyIcon.style["height"] = "100vh";
-            dummyIcon.style["display"] = "inline-block";
+            // dummyIcon.style["width"] = "100vw";
+            // dummyIcon.style["height"] = "100vh";
+            // dummyIcon.style["display"] = "inline-block";
+            dummyIcon.className = "pe-7s-info";
             dummyButton.appendChild(dummyIcon);
             icons.appendChild(dummyButton);
         }
