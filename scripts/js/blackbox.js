@@ -450,7 +450,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             // dummyIcon.style["height"] = "100vh";
             // dummyIcon.style["display"] = "inline-block";
             dummyIcon.className = "pe-7s-info";
-            dummyIcon.style["visibility"] = "hidden";
+            // dummyIcon.style["visibility"] = "hidden";
             dummyButton.appendChild(dummyIcon);
             icons.appendChild(dummyButton);
         }
@@ -485,8 +485,8 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         document.addEventListener('touchleave', onDocumentTouchEnd, false);
         infoButton.addEventListener("click", cbs.info);
         infoButton.addEventListener("touchstart", cbs.info);
-        dummyButton.addEventListener("click", null);
-        dummyButton.addEventListener("touchstart", null);
+        dummyButton.addEventListener("click", cbs.info);
+        dummyButton.addEventListener("touchstart", cbs.info);
         uploadButton.addEventListener('click', onClickButton);
         uploadButton.addEventListener('touchstart', onClickButton);
     }
