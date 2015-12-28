@@ -433,16 +433,22 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             dummyButton.style["position"] = "absolute";
             dummyButton.style["width"] = "100vw";
             dummyButton.style["height"] = "100vh";
-            dummyButton.addEventListener("click", function(){
-                dummyButton.style["display"] = "none";
-                dummyButton.removeEventListener("click", null);
-                icons.removeChild(dummyButton);
-            });
-            dummyButton.addEventListener("touchstart", function(){
-                dummyButton.style["display"] = "none";
-                dummyButton.removeEventListener("touchstart", null);
-                icons.removeChild(dummyButton);
-            });
+            // dummyButton.addEventListener("click", function(){
+            //     dummyButton.style["display"] = "none";
+            //     dummyButton.removeEventListener("click", null);
+            //     icons.removeChild(dummyButton);
+            // });
+            // dummyButton.addEventListener("touchstart", function(){
+            //     dummyButton.style["display"] = "none";
+            //     dummyButton.removeEventListener("touchstart", null);
+            //     icons.removeChild(dummyButton);
+            // });
+            dummyButton.addEventListener("click", null);
+            dummyButton.addEventListener("touchstart", null);
+            var dummyIcon = document.createElement("i");
+            dummyIcon.style["width"] = "100vw";
+            dummyIcon.style["height"] = "100vh";
+            dummyButton.appendChild(dummyIcon);
             icons.appendChild(dummyButton);
         }
         icons.appendChild(infoButton);
