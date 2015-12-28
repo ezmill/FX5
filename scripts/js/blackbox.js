@@ -451,7 +451,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             // dummyIcon.style["display"] = "inline-block";
             dummyIcon.className = "pe-7s-info";
             // dummyIcon.style["visibility"] = "hidden";
-            dummyButton.appendChild(dummyIcon);
+            // dummyButton.appendChild(dummyIcon);
             icons.appendChild(dummyButton);
         }
         icons.appendChild(infoButton);
