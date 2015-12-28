@@ -448,6 +448,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             var dummyIcon = document.createElement("i");
             dummyIcon.style["width"] = "100vw";
             dummyIcon.style["height"] = "100vh";
+            dummyIcon.style["display"] = "inline-block";
             dummyButton.appendChild(dummyIcon);
             icons.appendChild(dummyButton);
         }
