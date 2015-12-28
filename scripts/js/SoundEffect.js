@@ -37,7 +37,6 @@ function SoundEffect(SRC, ID, MAXVOL){
 		this.playing = true;
 	}
 	this.fadeOut = function(){
-		console.log("fading out");
 		this.playing = false;
 	}
 }
