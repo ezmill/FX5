@@ -72,6 +72,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
     }
     var infoButton = document.createElement("div");
     var uploadButton = document.createElement("div");
+    var dummyButton = document.createElement("div");
     var icons = document.createElement("div");
     addIcons();
     var soundFX = [];
@@ -428,6 +429,22 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         uploadIcon.className = "pe-7s-upload";
         infoButton.appendChild(infoIcon);
         uploadButton.appendChild(uploadIcon);
+        if(isMobile){
+            dummyButton.style["position"] = "absolute";
+            dummyButton.style["width"] = "100vw";
+            dummyButton.style["height"] = "100vh";
+            dummyButton.addEventListener("click", function(){
+                dummyButton.style["display"] = "none";
+                dummyButton.removeEventListener("click", null);
+                icons.removeChild(dummyButton);
+            });
+            dummyButton.addEventListener("touchstart", function(){
+                dummyButton.style["display"] = "none";
+                dummyButton.removeEventListener("touchstart", null);
+                icons.removeChild(dummyButton);
+            });
+            icons.appendChild(dummyButton);
+        }
         icons.appendChild(infoButton);
         icons.appendChild(uploadButton);
         div.appendChild(icons);
