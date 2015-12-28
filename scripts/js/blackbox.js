@@ -443,8 +443,6 @@ function blackbox(el, inputImage, origImage, size, cbs) {
             //     dummyButton.removeEventListener("touchstart", null);
             //     icons.removeChild(dummyButton);
             // });
-            dummyButton.addEventListener("click", null);
-            dummyButton.addEventListener("touchstart", null);
             var dummyIcon = document.createElement("i");
             dummyIcon.style["width"] = "100vw";
             dummyIcon.style["height"] = "100vh";
@@ -483,6 +481,8 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         document.addEventListener('touchleave', onDocumentTouchEnd, false);
         infoButton.addEventListener("click", cbs.info);
         infoButton.addEventListener("touchstart", cbs.info);
+        dummyButton.addEventListener("click", cbs.info);
+        dummyButton.addEventListener("touchstart", cbs.info);
         uploadButton.addEventListener('click', onClickButton);
         uploadButton.addEventListener('touchstart', onClickButton);
     }
