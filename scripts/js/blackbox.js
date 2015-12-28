@@ -48,6 +48,9 @@ function blackbox(el, sources, size, cbs) {
     white.minFilter = white.magFilter = THREE.LinearFilter;
     var black = THREE.ImageUtils.loadTexture(PATH + "textures/black.jpg", undefined, checkLoading);
     black.minFilter = black.magFilter = THREE.LinearFilter;
+    var noiseTex = THREE.ImageUtils.loadTexture(PATH + "textures/noise.jpg", undefined, checkLoading);
+    noiseTex.minFilter = noiseTex.magFilter = THREE.NearestFilter;
+    noiseTex.wrapS = noiseTex.wrapT = THREE.RepeatWrapping;
     var img = new Image();
     img.src = sources.input;
     var origImg = new Image();
@@ -80,7 +83,7 @@ function blackbox(el, sources, size, cbs) {
     var isAnimating = false;
     function checkLoading() {
         ++loadedItems;
-        if (loadedItems >= 7) {
+        if (loadedItems >= 8) {
             texture.image = img;
             texture.minFilter = texture.magFilter = THREE.LinearFilter;
             texture.needsUpdate = true;
@@ -143,7 +146,7 @@ function blackbox(el, sources, size, cbs) {
         insertRevert(effects);
         createSoundEffects(effects);
         effectIndex = 0;    
-        effect = new Effect("glitch");
+        effect = new Effect(effects[effectIndex]);
         effect.init();
         mask = new Mask(renderer);
         mask.init();
@@ -170,7 +173,7 @@ function blackbox(el, sources, size, cbs) {
         texture.minFilter = texture.magFilter = THREE.LinearFilter;
 
 
-        effect = new Effect("glitch");
+        effect = new Effect(effects[effectIndex]);
         effect.init();
 
         mask.renderer.clearDepth();
@@ -609,6 +612,7 @@ function blackbox(el, sources, size, cbs) {
                 if (this.material.uniforms.origTex) this.material.uniforms.origTex.value = this.origTex;
                 if (this.fbos[i].material.uniforms.seed) this.fbos[i].material.uniforms.seed.value = seed;
                 if (this.material.uniforms.seed) this.material.uniforms.seed.value = seed;
+                if (this.material.uniforms.noise) this.material.uniforms.noise.value = noiseTex;
             }
         };
         this.setMask = function(tex) {
@@ -963,7 +967,12 @@ function blackbox(el, sources, size, cbs) {
         this.glitchEffect = function() {
             var customShaders = new CustomShaders();
             var customShaders2 = new CustomShaders();
-            var glitchShader = new GlitchShader4();
+            var glitchShader;
+            if(glitchShaderSeed > 0.5){
+                glitchShader = new GlitchShader()
+            } else {
+                glitchShader = new GlitchShader4()
+            }
             var shaders = [
                 customShaders2.passShader,
                 customShaders.diffShader2,
