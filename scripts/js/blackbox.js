@@ -431,7 +431,7 @@ function blackbox(el, inputImage, origImage, size, cbs) {
         uploadButton.appendChild(uploadIcon);
         if(isMobile){
             dummyButton.style["position"] = "absolute";
-            dummyButton.style["right"] = 0;
+            dummyButton.style["left"] = 0;
             dummyButton.style["margin"] = "20px";
             dummyButton.style["cursor"] = "pointer";
             dummyButton.style["font-size"] = "48px";
