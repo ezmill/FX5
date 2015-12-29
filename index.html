@@ -104,7 +104,7 @@
 		<script src="scripts/js/blackbox.js"></script>
 		<script>
 			var blackboxEl = document.getElementById('BB-container')
-
+			var loadedItems = 0;
 			mask1 = new Image();
 			mask1.src = "assets/textures/1/mask1.png";
 			mask2 = new Image();
@@ -113,8 +113,17 @@
 			mask3.src = "assets/textures/1/mask3.png";
 			imgEl = new Image();
 			imgEl.src ="assets/textures/1/texture.jpg"
-
-			imgEl.onload = function(){
+		    mask1.addEventListener("load", checkLoading);
+		    mask2.addEventListener("load", checkLoading);
+		    mask3.addEventListener("load", checkLoading);
+		    imgEl.addEventListener("load", checkLoading);
+		    function checkLoading(){
+		        ++loadedItems;
+		        if(loadedItems >= 4){
+		        	init();
+		        }
+		    }
+			function init(){
 				var canvas = document.createElement('canvas')
 				canvas.width = imgEl.width;
 				canvas.height = imgEl.height;

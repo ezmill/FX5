@@ -124,11 +124,13 @@ function blackbox(el, sources, size, cbs) {
                 overlay.style.display = "block";
                 draw();
             } else {
-                overlay.style.display = "none";            
+                overlay.style.display = "none"; 
+                createSoundEffects(effects);           
                 onWindowResize();
             }
         } else {
             addEventListeners();
+            createSoundEffects(effects);
             animate();
         }
 
@@ -144,7 +146,6 @@ function blackbox(el, sources, size, cbs) {
     function createEffect() {
         shuffle(effects);
         insertRevert(effects);
-        createSoundEffects(effects);
         effectIndex = 0;    
         effect = new Effect(effects[effectIndex]);
         effect.init();
