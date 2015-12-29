@@ -86,6 +86,8 @@ function blackbox(el, sources, size, cbs) {
         if (loadedItems >= 8) {
             texture.image = img;
             texture.minFilter = texture.magFilter = THREE.LinearFilter;
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(2,2);
             texture.needsUpdate = true;
             origTex.image = origImg;
             origTex.minFilter = origTex.magFilter = THREE.LinearFilter;
@@ -171,7 +173,8 @@ function blackbox(el, sources, size, cbs) {
         texture.image = renderer.domElement;
         texture.needsUpdate = true;
         texture.minFilter = texture.magFilter = THREE.LinearFilter;
-
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(2,2);
 
         effect = new Effect("glitch");
         effect.init();

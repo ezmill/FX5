@@ -2,16 +2,19 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<!-- <link rel="stylesheet" href="assets/css/index.css"> -->
 		<link rel="stylesheet" href="icons/pe-icon-7-stroke/css/pe-icon-7-stroke.css">
 		<style>
+			@font-face {
+			  font-family: "Knockout";
+			  src: url("../fonts/knockout.otf");
+			  font-weight: normal;
+			  font-style: normal;
+			}
 			body {
 				color: #fff;
 				font-family:Monospace;
 				font-size:13px;
 				margin: 0px;
-				/*text-align:center;*/
-				/*overflow: hidden;*/
 			}
 			#overlay{
 				z-index: 1;
@@ -23,44 +26,92 @@
 				position: absolute;
 				display: none;
 			}
-			#overlay p{
+			.button{
+		        border: none;
+		        display: inline-block;
+		        font-family: "Knockout";
+		        font-size: 19px;
+		        line-height: 19px;
+		        vertical-align: middle;
+		        padding: 7px 10px;
+		        letter-spacing: 0.1em;
+		        background-color: #ffffff;
+		        color: #000000;
+		        text-transform: uppercase;
+		        box-sizing: border-box;
+		        outline: none;
 				position: absolute;
 				top: 50%;
 				left: 50%;
-				font-size: 50px;
-				line-height: 50px;
-				margin: 0 auto;
 				-webkit-transform: translate(-50%, -50%);
 				   -moz-transform: translate(-50%, -50%);
 				    -ms-transform: translate(-50%, -50%);
 				     -o-transform: translate(-50%, -50%);
 				        transform: translate(-50%, -50%);
 			}
+			.underlay{
+				/*background-size: cover;*/
+				/*background-position: center;*/
+				/*filter: brightness(0.5);*/
+				/*-webkit-transform: rotate(90deg);*/
+				   /*-moz-transform: rotate(90deg);*/
+				    /*-ms-transform: rotate(90deg);*/
+				     /*-o-transform: rotate(90deg);*/
+				        /*transform: rotate(90deg);*/
+				/*width: 100vh;*/
+				/*height: 100vw;*/
+				position: relative;
+				overflow: hidden;
+			}
+			.underlay:before
+			{
+				content: "";
+				position: absolute;
+				width: 200%;
+				height: 200%;
+				top: -50%;
+				left: -50%;
+				z-index: -1;
+				background: url(assets/textures/1/texture.jpg);
+				background-position: center;
+				background-size: cover;
+				-webkit-transform: rotate(90deg);
+				-moz-transform: rotate(90deg);
+				-ms-transform: rotate(90deg);
+				-o-transform: rotate(90deg);
+				transform: rotate(90deg);
+			}
+			@media (max-width: 767px) and (min-width: 0){
+				.button {
+				    font-size: 15px;
+				    line-height: 15px;
+				}
+			}
 		</style>
 	</head>
 	<body>
-		<div id="overlay">
-			<p>ROTATE YOUR DEVICE</p>
+
+		<div id="BB-container">
+			<div id="overlay">
+				<div class="underlay"></div>
+				<div class="button">ROTATE YOUR DEVICE</div>
+			</div>
 		</div>
-		<div id="BB-container"></div>
 		<script src="scripts/js/three.min.js"></script>
-		<script src="scripts/js/SoundEffect.js"></script>
-		<script src="scripts/js/CustomShaders2.js"></script>
 		<script src="scripts/js/soundjs-0.6.2.min.js"></script>
-		<!-- // <script src='scripts/js/threex.js'></script> -->
-		<script src='scripts/js/threex.renderstats.js'></script>
+		<script src="scripts/js/CustomShaders2.js"></script>
 		<script src="scripts/js/blackbox.js"></script>
 		<script>
 			var blackboxEl = document.getElementById('BB-container')
 
 			mask1 = new Image();
-			mask1.src = "assets/textures/2/mask1.png";
+			mask1.src = "assets/textures/1/mask1.png";
 			mask2 = new Image();
-			mask2.src = "assets/textures/2/mask2.png";
+			mask2.src = "assets/textures/1/mask2.png";
 			mask3 = new Image();
-			mask3.src = "assets/textures/2/revert.png";
+			mask3.src = "assets/textures/1/mask3.png";
 			imgEl = new Image();
-			imgEl.src = "assets/textures/2/texture.jpg";
+			imgEl.src ="assets/textures/1/texture.jpg"
 
 			imgEl.onload = function(){
 				var canvas = document.createElement('canvas')
@@ -86,7 +137,8 @@
                 }
                 var size = {
                     w: imgEl.width,
-                    h: imgEl.height
+                    h: imgEl.height,
+                    margin: 1000
                 }
                 var cbs = {
                     save: onCompleteBlackbox,
