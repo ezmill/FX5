@@ -362,6 +362,7 @@ function blackbox(el, sources, size, cbs) {
                     isAnimating = false;
                     removeEventListeners();
                     window.cancelAnimationFrame(id);
+                    draw();
                 }
             } else {
                 overlay.style.display = "none";
