@@ -24,7 +24,7 @@ function blackbox(el, sources, size, cbs) {
     var div = document.createElement('div');
     div.className = 'blackbox';
     div.style.overflow = "hidden";
-    div.style.height = "100%";
+    div.style.height = "100vh";
     div.style.width = "100%";
     div.style.textAlign = "center";
     var marginLeft = size.margin;
@@ -47,6 +47,7 @@ function blackbox(el, sources, size, cbs) {
     var id;
     var effects = ["warp", "revert", "rgb shift", "oil paint", "repos", "flow", "warp flow", "curves", "neon glow"];
     var loadedItems = 0;
+    var backingTrack;
     var white = THREE.ImageUtils.loadTexture(PATH + "textures/white.jpg", undefined, checkLoading);
     white.minFilter = white.magFilter = THREE.LinearFilter;
     var black = THREE.ImageUtils.loadTexture(PATH + "textures/black.jpg", undefined, checkLoading);
@@ -77,7 +78,6 @@ function blackbox(el, sources, size, cbs) {
     var icons = document.createElement("div");
     addIcons();
     var soundFX = [];
-    var backingTrack = new SoundEffect(PATH + "audio/main.mp3", "main", 0.25);
     var debounceResize;
     var overlay = document.getElementById("overlay");
     var isAnimating = false;
@@ -99,7 +99,6 @@ function blackbox(el, sources, size, cbs) {
             mask3.image = mask3Img;
             mask3.minFilter = mask3.magFilter = THREE.LinearFilter;
             mask3.needsUpdate = true;
-            backingTrack.fadeIn();
             init();
         }
     }
@@ -141,6 +140,8 @@ function blackbox(el, sources, size, cbs) {
             var sound = new SoundEffect(src, effects[i], 1.0);
             soundFX.push(sound);
         }
+        backingTrack = new SoundEffect(PATH + "audio/main.mp3", "main", 0.25);
+        backingTrack.fadeIn();
     }
     function createEffect() {
         shuffle(effects);
@@ -215,6 +216,7 @@ function blackbox(el, sources, size, cbs) {
         mask.update();
         alpha.needsUpdate = true;
     
+        backingTrack.fadeIn();
         backingTrack.update();
         for(var i = 0; i < soundFX.length; i++){
             soundFX[i].update();
@@ -1152,7 +1154,6 @@ function blackbox(el, sources, size, cbs) {
         this.update = function(){
             if(this.loaded){
                 if (this.playing) {
-                    this.audio.play();
                     this.audio.volume += (this.maxVolume - this.audio.volume) * 0.05;
 
                 } else {
@@ -1165,7 +1166,8 @@ function blackbox(el, sources, size, cbs) {
         }
         this.fadeIn = function(){
             if(this.loaded){
-                this.playing = true;                
+                this.audio.play();             
+                this.playing = true;   
             }
         }
         this.fadeOut = function(){
