@@ -43,6 +43,7 @@ function blackbox(el, sources, size, cbs) {
     setRenderSize();
     var scene, camera, renderer, texture, fbMaterial, mask;
     var effectIndex = 0;
+    var glitchShaderSeed;
     var id;
     var effects = ["warp", "revert", "rgb shift", "oil paint", "repos", "flow", "warp flow", "curves", "neon glow"];
     var loadedItems = 0;
@@ -285,6 +286,7 @@ function blackbox(el, sources, size, cbs) {
 
         var glitchSeed = Math.random();
         if(glitchSeed >= 0.9){
+            glitchShaderSeed = Math.random();
             var randomIndex = Math.floor(Math.random() * (length + 2));
             array.splice(randomIndex, 0, "glitch");
         }
@@ -402,8 +404,8 @@ function blackbox(el, sources, size, cbs) {
         icons.style.left = 0;
         icons.style.right = 0;
         icons.style.bottom = 0;
-        icons.style.width = window.innerWidth;
-        icons.style.height = window.innerHeight;
+        icons.style.width = renderSize.x;
+        icons.style.height = renderSize.y;
         icons.style["font-size"] = 48;
         uploadButton.style.position = infoButton.style.position = "absolute";
         uploadButton.style.right = infoButton.style.right = 0;
@@ -586,7 +588,7 @@ function blackbox(el, sources, size, cbs) {
                 if (this.material.uniforms.origTex) this.material.uniforms.origTex.value = this.origTex;
                 if (this.fbos[i].material.uniforms.seed) this.fbos[i].material.uniforms.seed.value = seed;
                 if (this.material.uniforms.seed) this.material.uniforms.seed.value = seed;
-                if (this.material.uniforms.noise) this.material.uniforms.noise.value = noiseTex;
+                // if (this.material.uniforms.noise) this.material.uniforms.noise.value = noiseTex;
             }
         };
         this.setMask = function(tex) {
@@ -941,7 +943,12 @@ function blackbox(el, sources, size, cbs) {
         this.glitchEffect = function() {
             var customShaders = new CustomShaders();
             var customShaders2 = new CustomShaders();
-            var glitchShader = new GlitchShader()
+            var glitchShader;
+            if(glitchShaderSeed > 0.5){
+                glitchShader = new GlitchShader();
+            } else {
+                glitchShader = new GlitchShader4();
+            }
             var shaders = [
                 customShaders2.passShader,
                 customShaders.diffShader2,
@@ -1156,10 +1163,14 @@ function blackbox(el, sources, size, cbs) {
             }
         }
         this.fadeIn = function(){
-            this.playing = true;
+            if(this.loaded){
+                this.playing = true;                
+            }
         }
         this.fadeOut = function(){
-            this.playing = false;
+            if(this.loaded){
+                this.playing = false;
+            }
         }
     }
 }
