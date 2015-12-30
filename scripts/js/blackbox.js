@@ -24,8 +24,8 @@ function blackbox(el, sources, size, cbs) {
     var div = document.createElement('div');
     div.className = 'blackbox';
     div.style.overflow = "hidden";
-    div.style.height = "100vh";
-    div.style.width = "100vw";
+    div.style.height = "100%";
+    div.style.width = "100%";
     div.style.textAlign = "center";
     var marginLeft = size.margin;
     var useMargin = false;
