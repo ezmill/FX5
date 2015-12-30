@@ -402,11 +402,11 @@ function blackbox(el, sources, size, cbs) {
         }
     }
     function addIcons(){
-        icons.style.position = "fixed";
-        icons.style.top = 0;
-        icons.style.left = 0;
-        icons.style.right = 0;
-        icons.style.bottom = 0;
+        // icons.style.position = "absolute";
+        // icons.style.top = 0;
+        // icons.style.left = 0;
+        // icons.style.right = 0;
+        // icons.style.bottom = 0;
         icons.style.width = renderSize.x;
         icons.style.height = renderSize.y;
         icons.style["font-size"] = 48;
