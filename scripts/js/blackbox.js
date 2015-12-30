@@ -126,12 +126,12 @@ function blackbox(el, sources, size, cbs) {
                 draw();
             } else {
                 overlay.style.display = "none"; 
-                createSoundEffects(effects);           
+                // createSoundEffects(effects);           
                 onWindowResize();
             }
         } else {
             addEventListeners();
-            createSoundEffects(effects);
+            // createSoundEffects(effects);
             animate();
         }
 
@@ -147,6 +147,8 @@ function blackbox(el, sources, size, cbs) {
     function createEffect() {
         shuffle(effects);
         insertRevert(effects);
+        createSoundEffects(effects);
+
         effectIndex = 0;    
         effect = new Effect(effects[effectIndex]);
         effect.init();
@@ -338,6 +340,7 @@ function blackbox(el, sources, size, cbs) {
     }
 
     function onDocumentTouchEnd(event) {
+        console.log("touch end");
         mouseDown = false;
         r2 = 0;
         mask.radius = 0;
